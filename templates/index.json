@@ -1,1 +1,68 @@
-{"sections":{"image_banner_VEbXzt":{"type":"image-banner","custom_css":[".banner__media, {background-color: transparent !important;}"],"name":"t:sections.image-banner.presets.name","settings":{"image":"shopify:\/\/shop_images\/gradient_Artboard_1_copy_3_2x_68ae59cd-e846-4b2d-bbd4-8e7498c15a6c.png","image_overlay_opacity":0,"image_height":"adapt","image_behavior":"none","desktop_content_position":"middle-center","desktop_content_alignment":"center","show_text_box":true,"color_scheme":"scheme-dfe268db-66ea-4d85-bfdb-9c77f13a16ed","stack_images_on_mobile":true,"mobile_content_alignment":"center","show_text_below":true}},"featured-collection":{"type":"featured-collection","custom_css":[".gradient {background-attachment: unset;}"],"settings":{"collection":"all","products_to_show":2,"title":"","heading_size":"h2","description":"","show_description":false,"description_style":"uppercase","columns_desktop":2,"enable_desktop_slider":false,"full_width":false,"show_view_all":true,"view_all_style":"outline","color_scheme":"scheme-0d4c969d-c5c1-4b78-94a1-b4c21463ebe7","image_ratio":"adapt","image_shape":"default","show_secondary_image":true,"show_vendor":true,"show_rating":false,"quick_add":"none","columns_mobile":"1","swipe_on_mobile":false,"padding_top":32,"padding_bottom":32}}},"order":["image_banner_VEbXzt","featured-collection"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner_VEbXzt": {
+      "type": "image-banner",
+      "custom_css": [
+        ".banner__media {background-color: transparent !important;}"
+      ],
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/gradient_Artboard_1_copy_3_2x_68ae59cd-e846-4b2d-bbd4-8e7498c15a6c.png",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-right",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "scheme-dfe268db-66ea-4d85-bfdb-9c77f13a16ed",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": true
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "custom_css": [
+        ".gradient {background-attachment: unset;}"
+      ],
+      "settings": {
+        "collection": "all",
+        "products_to_show": 2,
+        "title": "",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "uppercase",
+        "columns_desktop": 2,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "outline",
+        "color_scheme": "scheme-0d4c969d-c5c1-4b78-94a1-b4c21463ebe7",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    }
+  },
+  "order": [
+    "image_banner_VEbXzt",
+    "featured-collection"
+  ]
+}
