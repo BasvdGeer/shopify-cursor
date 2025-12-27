@@ -146,6 +146,49 @@
     display: none;
   }
 
+  /* Navigation Arrows - Sticky Note Style */
+  .scroll-arrow {
+    position: absolute;
+    top: 50%;
+    width: 50px;
+    height: 50px;
+    background: #fef08a; /* Sticky Note Yellow */
+    border: none;
+    border-radius: 2px; /* Slight rounding for paper feel, but mostly square */
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.2s ease;
+    opacity: 0.9;
+    color: #000;
+  }
+  
+  .scroll-arrow:hover {
+    opacity: 1;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
+    /* Reset rotation on hover for interaction feedback */
+    transform: translateY(-50%) scale(1.1) rotate(0deg) !important; 
+  }
+  
+  .scroll-prev {
+    left: 60px; /* Moved inward from edge */
+    transform: translateY(-50%) rotate(-5deg);
+  }
+  
+  .scroll-next {
+    right: 60px; /* Moved inward from edge */
+    transform: translateY(-50%) rotate(5deg);
+  }
+  
+  @media screen and (max-width: 750px) {
+    .scroll-arrow {
+      display: none; /* Hide arrows on mobile where swipe is natural */
+    }
+  }
+
 {%- endstyle -%}
 
 <div class="hanging-posters-section color-{{ section.settings.color_scheme }} gradient">
@@ -155,8 +198,14 @@
         {{ section.settings.title }}
       </h2>
     {%- endif -%}
+  </div>
 
-    <div class="hanging-wall-grid">
+  <div class="hanging-wall-wrapper" style="position: relative; width: 100%;">
+    <button class="scroll-arrow scroll-prev" aria-label="Previous">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+
+    <div class="hanging-wall-grid" id="HangingWallGrid-{{ section.id }}">
       {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
         <a href="{{ product.url }}" class="hanging-poster-card">
           <div class="hanging-poster-image-wrapper">
@@ -191,8 +240,34 @@
         {%- endfor -%}
       {%- endfor -%}
     </div>
+
+    <button class="scroll-arrow scroll-next" aria-label="Next">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const grid = document.getElementById('HangingWallGrid-{{ section.id }}');
+    const prevBtn = grid.parentElement.querySelector('.scroll-prev');
+    const nextBtn = grid.parentElement.querySelector('.scroll-next');
+
+    if (grid) {
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          grid.scrollBy({ left: -350, behavior: 'smooth' });
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          grid.scrollBy({ left: 350, behavior: 'smooth' });
+        });
+      }
+    }
+  });
+</script>
 
 {% schema %}
 {

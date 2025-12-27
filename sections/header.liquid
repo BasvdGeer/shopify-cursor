@@ -70,6 +70,34 @@
       padding-top: 0.5rem;
     }
   }
+
+
+
+  /* Animated logo visibility */
+  .header__heading,
+  .header__heading-link {
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                margin 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.4s;
+    opacity: 1;
+    transform: scale(1);
+    max-width: 300px; /* Constraints width to allow animation to 0 */
+    overflow: hidden;
+    visibility: visible;
+  }
+
+  /* Hide logo when scrolled past the header (both scrolling down and back up) */
+  .scrolled-past-header .header__heading,
+  .scrolled-past-header .header__heading-link {
+    opacity: 0;
+    transform: scale(0.8);
+    max-width: 0;
+    margin-inline: 0; /* Collapse margins */
+    visibility: hidden;
+    pointer-events: none;
+  }
 </style>
 
 {%- style -%}
@@ -389,7 +417,7 @@
 
     reset() {
       if (this.headerIsAlwaysSticky) return;
-      this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
+      this.header.classList.remove('shopify-section-header-sticky', 'animate');
     }
 
     closeMenuDisclosure() {

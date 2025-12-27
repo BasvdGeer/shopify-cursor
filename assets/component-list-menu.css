@@ -29,11 +29,75 @@
   padding: 0.5rem;
 }
 
+
 .header__menu-item {
-  transition: background-color 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0 5px;
+  /* Spacing between notes */
+  padding: 8px 12px;
+  /* Inner spacing for note feel */
+  color: #000;
+  /* Ensure text is black for contrast */
+  text-decoration: none;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  /* Subtle shadow */
+  border-radius: 2px;
+  /* Slight rounding */
+  height: auto;
+  /* Allow height to fit content */
+  display: inline-flex;
+  align-items: center;
 }
 
+/* Hover Effect: Pop up and straighten */
 .header__menu-item:hover {
-  background: linear-gradient(90deg, #ffe5e5 0%, #ffb3c1 100%);
-  border-radius: 0.5rem;
+  transform: scale(1.1) rotate(0deg) !important;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+/* Sticky Note Colors (Matching Posters) */
+.menu-note-color-1 {
+  background: #fff88f;
+}
+
+/* Yellow */
+.menu-note-color-2 {
+  background: #ffb6b9;
+}
+
+/* Pink */
+.menu-note-color-3 {
+  background: #a7e6ff;
+}
+
+/* Blue */
+.menu-note-color-4 {
+  background: #b7ffb8;
+}
+
+/* Green */
+.menu-note-color-5 {
+  background: #ffe0b5;
+}
+
+/* Orange */
+
+/* Random Rotations for Menu Items */
+/* We target the <li> parent to set rotation on the item inside, or direct on item if possible. 
+   Since we cycle classes on the link itself, we can just rotate the link. */
+li:nth-child(odd) .header__menu-item {
+  transform: rotate(-1.5deg);
+}
+
+li:nth-child(even) .header__menu-item {
+  transform: rotate(1.5deg);
+}
+
+li:nth-child(3n) .header__menu-item {
+  transform: rotate(-0.5deg);
+}
+
+li:nth-child(4n) .header__menu-item {
+  transform: rotate(2deg);
 }
