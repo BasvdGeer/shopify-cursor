@@ -9,26 +9,6 @@
  */
 {
   "sections": {
-    "image_banner_VEbXzt": {
-      "type": "image-banner",
-      "custom_css": [
-        ".banner__media {background-color: transparent !important;}"
-      ],
-      "name": "t:sections.image-banner.presets.name",
-      "settings": {
-        "image": "shopify://shop_images/gradient_Artboard_1_copy_3_2x_68ae59cd-e846-4b2d-bbd4-8e7498c15a6c.png",
-        "image_overlay_opacity": 0,
-        "image_height": "adapt",
-        "image_behavior": "none",
-        "desktop_content_position": "middle-right",
-        "desktop_content_alignment": "center",
-        "show_text_box": true,
-        "color_scheme": "scheme-dfe268db-66ea-4d85-bfdb-9c77f13a16ed",
-        "stack_images_on_mobile": true,
-        "mobile_content_alignment": "center",
-        "show_text_below": true
-      }
-    },
     "featured-collection": {
       "type": "featured-collection",
       "custom_css": [
@@ -62,7 +42,6 @@
     }
   },
   "order": [
-    "image_banner_VEbXzt",
     "featured-collection"
   ]
 }
