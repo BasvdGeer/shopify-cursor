@@ -1,0 +1,276 @@
+{%- style -%}
+  .hanging-posters-section {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    overflow: visible;
+  }
+
+  @media screen and (min-width: 750px) {
+    .hanging-posters-section {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .hanging-wall-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 50px;
+    padding: 40px 20px 100px 20px; /* Generous padding to avoid clipping shadows/notes */
+    max-width: 100%;
+    margin: 0;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .hanging-wall-grid::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  
+  /* Ensure no media query overrides the flex layout back to grid */
+
+  .hanging-poster-card {
+    position: relative;
+    background: transparent;
+    padding: 0;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform-origin: center top;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 300px; /* Fixed width for scrolling */
+    width: 300px;
+    scroll-snap-align: center;
+  }
+  
+  @media screen and (max-width: 750px) {
+    .hanging-poster-card {
+      flex: 0 0 250px;
+      width: 250px;
+    }
+  }
+
+  .hanging-poster-image-wrapper {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .hanging-poster-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    /* Soft, realistic shadow for "mounted" look */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.06),
+                1px 2px 8px rgba(0,0,0,0.1); 
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+  }
+
+  /* Random Rotations */
+  .hanging-poster-card:nth-child(odd) {
+    transform: rotate(-1.5deg);
+  }
+  .hanging-poster-card:nth-child(even) {
+    transform: rotate(1deg);
+  }
+  .hanging-poster-card:nth-child(3n) {
+    transform: rotate(-0.5deg);
+  }
+  .hanging-poster-card:nth-child(4n) {
+    transform: rotate(2deg);
+  }
+
+  /* Hover Interaction */
+  .hanging-poster-card:hover {
+    transform: rotate(0deg) scale(1.03) translateY(-5px);
+    z-index: 10;
+  }
+
+  .hanging-poster-card:hover .hanging-poster-image {
+    /* Deeper shadow on hover for "lift-off" */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 
+                0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hanging-poster-info {
+    text-align: center;
+    margin-top: 15px;
+    padding: 10px 15px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    width: auto;
+    display: inline-block;
+    color: #000;
+    transform: rotate(-1deg);
+    transition: transform 0.3s ease;
+  }
+
+  /* Post-it Release Colors */
+  .note-color-1 { background: #fff88f; } /* Classic Yellow */
+  .note-color-2 { background: #ffb6b9; } /* Pink */
+  .note-color-3 { background: #a7e6ff; } /* Blue */
+  .note-color-4 { background: #b7ffb8; } /* Green */
+  .note-color-5 { background: #ffe0b5; } /* Orange */
+  
+  /* Random Sticky Note Rotations */
+  .hanging-poster-card:nth-child(odd) .hanging-poster-info {
+    transform: rotate(2deg);
+  }
+  .hanging-poster-card:nth-child(even) .hanging-poster-info {
+    transform: rotate(-1.5deg);
+  }
+  .hanging-poster-card:nth-child(3n) .hanging-poster-info {
+    transform: rotate(1deg);
+  }
+
+  .hanging-poster-card:hover .hanging-poster-info {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
+  }
+  
+  .hanging-poster-title {
+    font-size: 1.1rem;
+    font-weight: 800; /* Bold */
+    margin: 0;
+    line-height: 1.2;
+    color: #000;
+    font-family: var(--font-heading-family); /* Use heading font for marker feel if possible */
+  }
+  
+  .hanging-poster-price {
+    display: none;
+  }
+
+{%- endstyle -%}
+
+<div class="hanging-posters-section color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    {%- if section.settings.title != blank -%}
+      <h2 class="title inline-richtext {{ section.settings.heading_size }} center">
+        {{ section.settings.title }}
+      </h2>
+    {%- endif -%}
+
+    <div class="hanging-wall-grid">
+      {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+        <a href="{{ product.url }}" class="hanging-poster-card">
+          <div class="hanging-poster-image-wrapper">
+             <img
+              srcset="{%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+                {%- if product.featured_media.width >= 360 -%}{{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+                {%- if product.featured_media.width >= 533 -%}{{ product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+                {%- if product.featured_media.width >= 720 -%}{{ product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}"
+              src="{{ product.featured_media | image_url: width: 533 }}"
+              sizes="(min-width: 1200px) 267px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+              alt="{{ product.featured_media.alt | escape }}"
+              loading="lazy"
+              width="{{ product.featured_media.width }}"
+              height="{{ product.featured_media.height }}"
+              class="hanging-poster-image"
+            >
+          </div>
+          <div class="hanging-poster-info {% cycle 'note_c': 'note-color-1', 'note-color-2', 'note-color-3', 'note-color-4', 'note-color-5' %}">
+            <h3 class="hanging-poster-title">{{ product.title }}</h3>
+          </div>
+        </a>
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          <div class="hanging-poster-card">
+             <div class="hanging-poster-image-wrapper">
+                {{ 'product-apparel-' | append: i | placeholder_svg_tag: 'hanging-poster-image' }}
+             </div>
+             <div class="hanging-poster-info {% cycle 'note_cp': 'note-color-3', 'note-color-1', 'note-color-5', 'note-color-2', 'note-color-4' %}">
+              <h3 class="hanging-poster-title">Poster Title</h3>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hanging Posters",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Featured Posters",
+      "label": "Heading"
+    },
+     {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        }
+      ],
+      "default": "h1",
+      "label": "Heading Size"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 25,
+      "step": 1,
+      "default": 8,
+      "label": "Products to show"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hanging Posters"
+    }
+  ]
+}
+{% endschema %}

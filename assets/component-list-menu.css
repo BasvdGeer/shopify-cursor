@@ -28,3 +28,12 @@
   width: 10rem;
   padding: 0.5rem;
 }
+
+.header__menu-item {
+  transition: background-color 0.2s ease;
+}
+
+.header__menu-item:hover {
+  background: linear-gradient(90deg, #ffe5e5 0%, #ffb3c1 100%);
+  border-radius: 0.5rem;
+}

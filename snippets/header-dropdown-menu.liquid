@@ -23,6 +23,7 @@
                 >
                   {{- link.title | escape -}}
                 </span>
+                {% render 'icon-menu', handle: link.handle %}
                 {{- 'icon-caret.svg' | inline_asset_content -}}
               </summary>
               <ul
@@ -95,6 +96,7 @@
             >
               {{- link.title | escape -}}
             </span>
+            {% render 'icon-menu', handle: link.handle %}
           </a>
         {%- endif -%}
       </li>
