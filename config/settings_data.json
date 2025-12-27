@@ -9,7 +9,7 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/gradient_logo_standaard_copy_3.png",
+    "logo": "shopify://shop_images/gradient_logo_standaard_copy_3_20612637-b50e-4818-8077-34468ada7f15.svg",
     "logo_width": 210,
     "type_header_font": "sans-serif",
     "heading_scale": 130,
@@ -127,21 +127,6 @@
     "show_cart_note": false,
     "cart_drawer_collection": "",
     "cart_color_scheme": "scheme-1",
-    "sections": {
-      "main-password-header": {
-        "type": "main-password-header",
-        "settings": {
-          "color_scheme": "scheme-4"
-        }
-      },
-      "main-password-footer": {
-        "type": "main-password-footer",
-        "settings": {
-          "color_scheme": "scheme-4"
-        }
-      }
-    },
-    "content_for_index": [],
     "color_schemes": {
       "scheme-1": {
         "settings": {
@@ -220,7 +205,22 @@
           "shadow": "#121212"
         }
       }
-    }
+    },
+    "sections": {
+      "main-password-header": {
+        "type": "main-password-header",
+        "settings": {
+          "color_scheme": "scheme-4"
+        }
+      },
+      "main-password-footer": {
+        "type": "main-password-footer",
+        "settings": {
+          "color_scheme": "scheme-4"
+        }
+      }
+    },
+    "content_for_index": []
   },
   "presets": {
     "Default": {
