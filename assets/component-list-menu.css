@@ -30,27 +30,64 @@
 }
 
 
+/* Text Menu Items (Sticky Notes) */
 .header__menu-item {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   margin: 0 5px;
-  /* Spacing between notes */
   padding: 8px 12px;
-  /* Inner spacing for note feel */
   color: #000;
-  /* Ensure text is black for contrast */
   text-decoration: none;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
-  /* Subtle shadow */
   border-radius: 2px;
-  /* Slight rounding */
   height: auto;
-  /* Allow height to fit content */
   display: inline-flex;
   align-items: center;
 }
 
-/* Hover Effect: Pop up and straighten */
+/* Icon Buttons (Square Sticky Notes) */
+.header__icon {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0 5px;
+  padding: 0 !important;
+  /* Center icon */
+  color: #000;
+  text-decoration: none;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  height: 44px;
+  width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  /* Default fallback */
+}
+
+/* Specific rotations for icons to look like notes */
+.header__icon--search {
+  transform: rotate(-2deg);
+}
+
+.header__icon--account {
+  transform: rotate(1.5deg);
+}
+
+.header__icon--cart {
+  transform: rotate(-1deg);
+}
+
+.header__icon--menu {
+  transform: rotate(2deg);
+}
+
+/* Hover effects */
 .header__menu-item:hover {
+  transform: scale(1.1) rotate(0deg) !important;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.header__icon:hover {
   transform: scale(1.1) rotate(0deg) !important;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 10;
