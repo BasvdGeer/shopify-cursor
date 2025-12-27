@@ -16,7 +16,7 @@
     display: flex;
     overflow-x: auto;
     gap: 50px;
-    padding: 40px 20px 100px 20px; /* Generous padding to avoid clipping shadows/notes */
+    padding: 20px 20px 100px 20px; /* Generous padding to avoid clipping shadows/notes */
     max-width: 100%;
     margin: 0;
     scroll-behavior: smooth;
@@ -178,6 +178,44 @@
     transform: translateY(-50%) rotate(-5deg);
   }
   
+
+  /* Masking Tape Header Style */
+  .masking-tape-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    padding: 10px;
+  }
+
+  .masking-tape-label {
+    background: linear-gradient(175deg, rgba(227, 207, 160, 0.95) 0%, rgba(210, 185, 130, 0.95) 100%); /* Packing tape texture */
+    color: #1a1a2e; /* Permanent marker blue/black */
+    padding: 10px 40px;
+    font-size: 2.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transform: rotate(-2deg) skew(-1deg);
+    box-shadow: 
+      4px 4px 8px rgba(0,0,0,0.2),
+      inset 0 0 10px rgba(0,0,0,0.05); /* Depth and inner shadow */
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1); /* Ink bleed */
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.2); /* Tape edge highlight */
+    
+    /* Jagged edges via clip-path */
+    clip-path: polygon(
+      2% 0%, 98% 0%, 
+      100% 5%, 99% 10%, 100% 15%, 98% 20%, 100% 25%, 99% 30%, 100% 35%, 98% 40%, 100% 45%, 99% 50%, 100% 55%, 98% 60%, 100% 65%, 99% 70%, 100% 75%, 98% 80%, 100% 85%, 99% 90%, 100% 95%, 98% 100%,
+      2% 100%, 
+      0% 95%, 1% 90%, 0% 85%, 2% 80%, 0% 75%, 1% 70%, 0% 65%, 2% 60%, 0% 55%, 1% 50%, 0% 45%, 2% 40%, 0% 35%, 1% 30%, 0% 25%, 2% 20%, 0% 15%, 1% 10%, 0% 5%
+    );
+    
+    opacity: 0.98;
+    z-index: 2;
+  }
+
   .scroll-next {
     right: 60px; /* Moved inward from edge */
     transform: translateY(-50%) rotate(5deg);
@@ -194,9 +232,11 @@
 <div class="hanging-posters-section color-{{ section.settings.color_scheme }} gradient">
   <div class="page-width">
     {%- if section.settings.title != blank -%}
-      <h2 class="title inline-richtext {{ section.settings.heading_size }} center">
-        {{ section.settings.title }}
-      </h2>
+      <div class="masking-tape-wrapper">
+        <h2 class="title inline-richtext {{ section.settings.heading_size }} center masking-tape-label">
+          {{ section.settings.title }}
+        </h2>
+      </div>
     {%- endif -%}
   </div>
 

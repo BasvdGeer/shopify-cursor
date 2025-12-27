@@ -57,28 +57,29 @@
 }
 
 /* Sticky Note Colors (Matching Posters) */
+/* Sticky Note Colors (Matching Posters) */
 .menu-note-color-1 {
-  background: #fff88f;
+  background: #fff88f !important;
 }
 
 /* Yellow */
 .menu-note-color-2 {
-  background: #ffb6b9;
+  background: #ffb6b9 !important;
 }
 
 /* Pink */
 .menu-note-color-3 {
-  background: #a7e6ff;
+  background: #a7e6ff !important;
 }
 
 /* Blue */
 .menu-note-color-4 {
-  background: #b7ffb8;
+  background: #b7ffb8 !important;
 }
 
 /* Green */
 .menu-note-color-5 {
-  background: #ffe0b5;
+  background: #ffe0b5 !important;
 }
 
 /* Orange */

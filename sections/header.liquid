@@ -73,19 +73,39 @@
 
 
 
-  /* Animated logo visibility */
+  /* Animated logo visibility and stability */
   .header__heading,
   .header__heading-link {
-    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                margin 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                visibility 0.4s;
+    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                max-width 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                margin 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+                visibility 0.5s;
     opacity: 1;
-    transform: scale(1);
-    max-width: 300px; /* Constraints width to allow animation to 0 */
+    transform: scale(1) translateZ(0); /* Hardware accelerate */
+    max-width: 300px;
     overflow: hidden;
     visibility: visible;
+    will-change: opacity, transform, max-width;
+  }
+  
+  /* Prevent CLS (Jump) during load */
+  .header__heading-logo-wrapper {
+    display: block;
+    width: 100%;
+    max-width: {{ settings.logo_width }}px;
+  }
+  .header__heading-logo {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Ensure header stays on top of all other content */
+  .header-wrapper,
+  .shopify-section-header-sticky,
+  .shopify-section-header-hidden {
+    z-index: 100 !important;
   }
 
   /* Hide logo when scrolled past the header (both scrolling down and back up) */
