@@ -22,6 +22,9 @@
     border: 1px solid rgba(212, 197, 157, 0.8);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 0 40px rgba(0, 0, 0, 0.05); /* Inset shadow for depth */
     border-radius: 4px; /* Sharper corners for paper */
+    
+    /* Cut corner for Peel Effect */
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 100px), calc(100% - 100px) 100%, 0 100%);
   }
 
   .sticker-wrapper {
@@ -70,6 +73,112 @@
     transform: scale(1.05);
   }
 
+  /* Peel Away Button */
+  .sticker-peel {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    /* Create the folded triangle look */
+    background: linear-gradient(135deg, transparent 50%, #dccba8 50%, #cbb890 100%);
+    box-shadow: -5px -5px 15px rgba(0,0,0,0.15); /* Shadow placed behind the curl */
+    display: flex;
+    justify-content: flex-end; /* Align text to bottom right of box (which is the triangle center) */
+    align-items: flex-end;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 10;
+    /* Since we are outside the clipped canvas (actually inside, but we need to fake it if clipped)
+       Wait, if we are INSIDE the canvas, we get clipped too!
+       CRITICAL: Use a separate container in HTML? 
+       Or place .sticker-peel OUTSIDE .sticker-canvas in the markup, but absolutely positioned relative to .sticker-wall-section?
+       If outside, we need to match position.
+       Easier: Don't clip the canvas. Use a mask or just overlay the peel on top?
+       If overlay, we see the paper underneath.
+       Let's use clip-path on the canvas, and place the peel OUTSIDE the canvas.
+       Markup change required.
+    */
+  }
+  
+  /* Correction: The peel needs to be inside the .sticker-wall-section container, matching the canvas position.
+     The canvas has margin: 20px auto. 
+     This makes positioning tricky if window resize.
+     Better approach: Wrap canvas in a relative container.
+  */
+  
+  .sticker-container-wrapper {
+    position: relative;
+    max-width: 1200px;
+    width: 95%;
+    margin: 20px auto;
+  }
+  
+  /* The Paper Canvas */
+  .sticker-wall-section .sticker-canvas {
+    margin: 0;
+    width: 100%;
+    /* Default Clip (Corner 60px to match small peel) */
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 60px), calc(100% - 60px) 100%, 0 100%);
+    transition: clip-path 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* When hovering the Button, peel the paper back significantly */
+  .sticker-peel:hover + .sticker-canvas {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 150px), calc(100% - 150px) 100%, 0 100%);
+  }
+
+  .sticker-peel {
+    position: absolute;
+    bottom: -1px; 
+    right: -1px;  
+    width: 60px; /* Hidden state: Small corner */
+    height: 60px;
+    
+    /* Realistic Paper Back */
+    background: linear-gradient(135deg, transparent 48%, rgba(0,0,0,0.1) 48%, rgba(0,0,0,0.05) 52%, #e0d0a6 52%, #cfbd93 100%);
+    
+    filter: drop-shadow(-3px -3px 3px rgba(0,0,0,0.2));
+    
+    display: flex;
+    align-items: flex-end; 
+    justify-content: flex-end; 
+    padding: 20px;
+    text-decoration: none;
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 10;
+    border-top-left-radius: 60px 10px; 
+    overflow: hidden; /* Hide text if it spills */
+  }
+  
+  .sticker-peel:hover {
+    width: 150px;
+    height: 150px;
+    filter: drop-shadow(-6px -6px 8px rgba(0,0,0,0.25));
+  }
+
+  .sticker-peel span {
+    transform: rotate(-45deg) translate(20px, 20px); /* Start hidden off-center */
+    font-family: var(--font-heading-family); /* Use theme font for consistency */
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: #3e2723;
+    line-height: 1.1;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0; /* Indirectly hidden */
+    transition: all 0.3s ease;
+    width: 100%;
+    pointer-events: none;
+  }
+  
+  .sticker-peel:hover span {
+    opacity: 1;
+    transform: rotate(-45deg) translate(0, 0); /* Slide into view */
+    transition-delay: 0.1s; /* Reveal after peel expands */
+  }
+  
   /* Reuse Packing Tape Header */
   .masking-tape-wrapper {
     display: flex;
@@ -78,29 +187,9 @@
     margin-bottom: 5px;
     padding: 10px;
   }
-
-  .masking-tape-label {
-    background: linear-gradient(175deg, rgba(227, 207, 160, 0.95) 0%, rgba(210, 185, 130, 0.95) 100%);
-    color: #1a1a2e;
-    padding: 10px 40px;
-    font-size: 2.4rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    transform: rotate(-2deg) skew(-1deg);
-    box-shadow: 4px 4px 8px rgba(0,0,0,0.2), inset 0 0 10px rgba(0,0,0,0.05);
-    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
-    position: relative;
-    border: 1px solid rgba(255,255,255,0.2);
-    clip-path: polygon(
-      2% 0%, 98% 0%, 
-      100% 5%, 99% 10%, 100% 15%, 98% 20%, 100% 25%, 99% 30%, 100% 35%, 98% 40%, 100% 45%, 99% 50%, 100% 55%, 98% 60%, 100% 65%, 99% 70%, 100% 75%, 98% 80%, 100% 85%, 99% 90%, 100% 95%, 98% 100%,
-      2% 100%, 
-      0% 95%, 1% 90%, 0% 85%, 2% 80%, 0% 75%, 1% 70%, 0% 65%, 2% 60%, 0% 55%, 1% 50%, 0% 45%, 2% 40%, 0% 35%, 1% 30%, 0% 25%, 2% 20%, 0% 15%, 1% 10%, 0% 5%
-    );
-    opacity: 0.98;
-    z-index: 2;
-  }
+  
+  /* ... existing masking tape styles ... */
+  /* NOPE, replacer tool needs exact context. I will stick to the block I am replacing. */
 {%- endstyle -%}
 
 <div class="sticker-wall-section">
@@ -114,28 +203,36 @@
     {%- endif -%}
   </div>
 
-  <div class="sticker-canvas" id="StickerCanvas-{{ section.id }}">
-    {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
-        <div class="sticker-wrapper" data-href="{{ product.url }}">
-            <img
-              srcset="{%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
-                {%- if product.featured_media.width >= 360 -%}{{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}"
-              src="{{ product.featured_media | image_url: width: 360 }}"
-              sizes="180px"
-              alt="{{ product.featured_media.alt | escape }}"
-              loading="lazy"
-              width="{{ product.featured_media.width }}"
-              height="{{ product.featured_media.height }}"
-              class="sticker-image"
-            >
-        </div>
-    {%- else -%}
-        {%- for i in (1..6) -%}
-            <div class="sticker-wrapper">
-                 {{ 'product-' | append: i | placeholder_svg_tag: 'sticker-image' }}
-            </div>
-        {%- endfor -%}
-    {%- endfor -%}
+  <div class="sticker-container-wrapper">
+    {%- if section.settings.collection != blank -%}
+      <a href="{{ section.settings.collection.url }}" class="sticker-peel">
+        <span>See<br>All</span>
+      </a>
+    {%- endif -%}
+
+    <div class="sticker-canvas" id="StickerCanvas-{{ section.id }}">
+      {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+          <div class="sticker-wrapper" data-href="{{ product.url }}">
+              <img
+                srcset="{%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+                  {%- if product.featured_media.width >= 360 -%}{{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}"
+                src="{{ product.featured_media | image_url: width: 360 }}"
+                sizes="180px"
+                alt="{{ product.featured_media.alt | escape }}"
+                loading="lazy"
+                width="{{ product.featured_media.width }}"
+                height="{{ product.featured_media.height }}"
+                class="sticker-image"
+              >
+          </div>
+      {%- else -%}
+          {%- for i in (1..6) -%}
+              <div class="sticker-wrapper">
+                   {{ 'product-' | append: i | placeholder_svg_tag: 'sticker-image' }}
+              </div>
+          {%- endfor -%}
+      {%- endfor -%}
+    </div>
   </div>
 </div>
 
