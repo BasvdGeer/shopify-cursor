@@ -5,7 +5,7 @@
   color: rgb(var(--color-foreground));
 }
 
-.price > * {
+.price>* {
   display: inline-block;
   vertical-align: top;
 }
@@ -98,4 +98,31 @@
   margin-top: 0.2rem;
   text-transform: uppercase;
   color: rgba(var(--color-foreground), 0.7);
+}
+
+/* Cute Highlighter Price Style */
+
+.price .price-item {
+  display: inline-block;
+  margin: 0 1rem 0 0;
+  font-weight: 700;
+  color: #2c2c2c;
+  padding: 0 0.5rem;
+  background: linear-gradient(transparent 55%, rgba(255, 235, 59, 0.8) 55%, rgba(255, 235, 59, 0.8) 90%, transparent 90%);
+  border-radius: 2px;
+  transform: rotate(-1deg);
+}
+
+.price--on-sale .price-item--regular {
+  background: none;
+  /* No highlight for old price */
+  text-decoration-color: #ff5252;
+  opacity: 0.7;
+  transform: none;
+}
+
+.price--on-sale .price-item--sale {
+  background: linear-gradient(transparent 55%, rgba(255, 182, 185, 0.8) 55%, rgba(255, 182, 185, 0.8) 90%, transparent 90%);
+  /* Pink highlight for sale */
+  transform: rotate(-2deg) scale(1.1);
 }
