@@ -1,0 +1,331 @@
+{%- style -%}
+  .sticker-wall-section {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    overflow: hidden; /* Hide stickers dragged deeply offscreen */
+    position: relative;
+    background-color: {{ section.settings.background_color | default: 'transparent' }};
+  }
+
+  .sticker-canvas {
+    position: relative;
+    width: 95%; /* Leave some margin */
+    max-width: 1200px;
+    height: 70vh; /* Contained on one screen */
+    min-height: 500px;
+    margin: 20px auto;
+    overflow: hidden; /* Keep them inside */
+    
+    /* Brown Paper Look (Semi-Transparent) */
+    background: linear-gradient(180deg, rgba(248, 239, 212, 0.85) 0%, rgba(230, 216, 182, 0.85) 100%);
+    backdrop-filter: blur(2px); /* Slight blur behind */
+    border: 1px solid rgba(212, 197, 157, 0.8);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 0 40px rgba(0, 0, 0, 0.05); /* Inset shadow for depth */
+    border-radius: 4px; /* Sharper corners for paper */
+  }
+
+  .sticker-wrapper {
+    position: absolute; /* Free movement */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Start center-ish before scatter */
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    transition: transform 0.1s linear;
+    z-index: 1;
+    width: auto;
+  }
+
+  .sticker-wrapper:active {
+    cursor: grabbing;
+    z-index: 100;
+    transition: none;
+  }
+
+  .sticker-image {
+    width: 140px; /* Slightly smaller for mobile clutter */
+    height: auto;
+    display: block;
+    pointer-events: none;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2)); 
+    transition: filter 0.2s ease, transform 0.2s ease;
+  }
+  
+  @media screen and (min-width: 750px) {
+    .sticker-image {
+      width: 200px;
+    }
+  }
+  
+  /* Hover effect: lift up slightly */
+  .sticker-wrapper:hover .sticker-image {
+    filter: drop-shadow(5px 10px 15px rgba(0,0,0,0.3));
+    transform: scale(1.05);
+  }
+
+  /* Hover effect: lift up slightly */
+  .sticker-wrapper:hover .sticker-image {
+    filter: drop-shadow(5px 10px 15px rgba(0,0,0,0.3));
+    transform: scale(1.05);
+  }
+
+  /* Reuse Packing Tape Header */
+  .masking-tape-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    padding: 10px;
+  }
+
+  .masking-tape-label {
+    background: linear-gradient(175deg, rgba(227, 207, 160, 0.95) 0%, rgba(210, 185, 130, 0.95) 100%);
+    color: #1a1a2e;
+    padding: 10px 40px;
+    font-size: 2.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transform: rotate(-2deg) skew(-1deg);
+    box-shadow: 4px 4px 8px rgba(0,0,0,0.2), inset 0 0 10px rgba(0,0,0,0.05);
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.2);
+    clip-path: polygon(
+      2% 0%, 98% 0%, 
+      100% 5%, 99% 10%, 100% 15%, 98% 20%, 100% 25%, 99% 30%, 100% 35%, 98% 40%, 100% 45%, 99% 50%, 100% 55%, 98% 60%, 100% 65%, 99% 70%, 100% 75%, 98% 80%, 100% 85%, 99% 90%, 100% 95%, 98% 100%,
+      2% 100%, 
+      0% 95%, 1% 90%, 0% 85%, 2% 80%, 0% 75%, 1% 70%, 0% 65%, 2% 60%, 0% 55%, 1% 50%, 0% 45%, 2% 40%, 0% 35%, 1% 30%, 0% 25%, 2% 20%, 0% 15%, 1% 10%, 0% 5%
+    );
+    opacity: 0.98;
+    z-index: 2;
+  }
+{%- endstyle -%}
+
+<div class="sticker-wall-section">
+  <div class="page-width">
+    {%- if section.settings.title != blank -%}
+      <div class="masking-tape-wrapper">
+        <h2 class="title inline-richtext {{ section.settings.heading_size }} center masking-tape-label">
+          {{ section.settings.title }}
+        </h2>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="sticker-canvas" id="StickerCanvas-{{ section.id }}">
+    {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+        <div class="sticker-wrapper" data-href="{{ product.url }}">
+            <img
+              srcset="{%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+                {%- if product.featured_media.width >= 360 -%}{{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}"
+              src="{{ product.featured_media | image_url: width: 360 }}"
+              sizes="180px"
+              alt="{{ product.featured_media.alt | escape }}"
+              loading="lazy"
+              width="{{ product.featured_media.width }}"
+              height="{{ product.featured_media.height }}"
+              class="sticker-image"
+            >
+        </div>
+    {%- else -%}
+        {%- for i in (1..6) -%}
+            <div class="sticker-wrapper">
+                 {{ 'product-' | append: i | placeholder_svg_tag: 'sticker-image' }}
+            </div>
+        {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('StickerCanvas-{{ section.id }}');
+    const stickers = canvas.querySelectorAll('.sticker-wrapper');
+    
+    // Scatter Stickers with Overlap Protection
+    const placedStickers = [];
+    const containerAspect = canvas.clientWidth / canvas.clientHeight;
+    // Normalized threshold: Assume sticker is roughly 15% of width. 
+    // Adjust y-threshold by aspect ratio to keep circles circular.
+    const thresholdX = 16; 
+    const thresholdY = 16 * containerAspect; 
+
+    stickers.forEach(sticker => {
+        let randX, randY, safe = false;
+        let attempts = 0;
+
+        // Try to find a safe spot
+        while (!safe && attempts < 50) {
+            attempts++;
+            // Tightened range: 10% to 70%
+            // This ensures mostly fully visible stickers even if they are large
+            randX = Math.floor(Math.random() * 60) + 10; 
+            randY = Math.floor(Math.random() * 60) + 10; 
+            
+            safe = true;
+            for (let p of placedStickers) {
+                // Simple distance check (normalized to X-axis units somewhat)
+                // We just check if they are too close in either dimension roughly
+                // Use Euclidean distance with aspect correction for better circular spacing
+                const dx = randX - p.x;
+                const dy = (randY - p.y) / containerAspect; // weighted by aspect
+                
+                // If distance is less than sticker size (~16%)
+                if (Math.hypot(dx, dy) < 14) { 
+                    safe = false;
+                    break;
+                }
+            }
+        }
+        
+        // If we failed 50 times, just place it anyway (it's a sticker pile after all)
+        
+        placedStickers.push({x: randX, y: randY});
+
+        const randRotate = Math.floor(Math.random() * 40) - 20; // -20 to 20 deg
+        
+        sticker.style.left = `${randX}%`;
+        sticker.style.top = `${randY}%`;
+        sticker.style.transform = `rotate(${randRotate}deg)`; 
+    });
+
+    stickers.forEach(sticker => {
+      let isDragging = false;
+      let startX, startY, initialTranslateX = 0, initialTranslateY = 0;
+      let currentTranslateX = 0, currentTranslateY = 0;
+
+      sticker.addEventListener('mousedown', startDrag);
+      sticker.addEventListener('touchstart', startDrag, {passive: false});
+
+      function startDrag(e) {
+        if (e.type === 'touchstart') {
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+        } else {
+          startX = e.clientX;
+          startY = e.clientY;
+          e.preventDefault(); 
+        }
+        
+        isDragging = false; // Reset to ensure it's a click unless moved
+
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', drag, {passive: false});
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchend', endDrag);
+      }
+
+      function drag(e) {
+        const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+        
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+        
+        // Small threshold to allow clicking
+        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+            isDragging = true;
+        }
+        
+        if (isDragging) {
+             if (e.type === 'touchmove') e.preventDefault(); 
+             currentTranslateX = initialTranslateX + dx;
+             currentTranslateY = initialTranslateY + dy;
+             
+             // Use 'translate' property to move without overwriting the 'transform: rotate(...)'
+             sticker.style.translate = `${currentTranslateX}px ${currentTranslateY}px`;
+        }
+      }
+
+      function endDrag(e) {
+        document.removeEventListener('mousemove', drag);
+        document.removeEventListener('touchmove', drag);
+        document.removeEventListener('mouseup', endDrag);
+        document.removeEventListener('touchend', endDrag);
+
+        if (isDragging) {
+           initialTranslateX = currentTranslateX;
+           initialTranslateY = currentTranslateY;
+        } else {
+           // Click action (navigate)
+           const url = sticker.dataset.href;
+           if (url) window.location.href = url;
+        }
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Sticker Wall",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "STICKERS",
+      "label": "Heading"
+    },
+    {
+       "type": "select",
+       "id": "heading_size",
+       "options": [
+         { "value": "h2", "label": "Small" },
+         { "value": "h1", "label": "Medium" },
+         { "value": "h0", "label": "Large" }
+       ],
+       "default": "h1",
+       "label": "Heading Size"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "default": 12,
+      "label": "Stickers to show"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "transparent"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticker Wall"
+    }
+  ]
+}
+{% endschema %}
