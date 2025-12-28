@@ -132,51 +132,77 @@
     position: absolute;
     bottom: -1px; 
     right: -1px;  
-    width: 60px; /* Hidden state: Small corner */
+    width: 60px; /* Hidden state */
     height: 60px;
     
-    /* Realistic Paper Back */
-    background: linear-gradient(135deg, transparent 48%, rgba(0,0,0,0.1) 48%, rgba(0,0,0,0.05) 52%, #e0d0a6 52%, #cfbd93 100%);
-    
-    filter: drop-shadow(-3px -3px 3px rgba(0,0,0,0.2));
+    /* Transparent Tape / Acetate Look */
+    background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.1) 100%);
+    backdrop-filter: blur(2px);
+    border-top: 1px solid rgba(255,255,255,0.3);
+    border-left: 1px solid rgba(255,255,255,0.1);
     
     display: flex;
-    align-items: flex-end; 
-    justify-content: flex-end; 
-    padding: 20px;
+    align-items: center; 
+    justify-content: center; 
+    padding: 0;
+    
     text-decoration: none;
-    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     z-index: 10;
-    border-top-left-radius: 60px 10px; 
-    overflow: hidden; /* Hide text if it spills */
+    border-top-left-radius: 60px; 
+    overflow: hidden;
   }
   
   .sticker-peel:hover {
     width: 150px;
     height: 150px;
-    filter: drop-shadow(-6px -6px 8px rgba(0,0,0,0.25));
+    background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.3) 100%);
+    box-shadow: -4px -4px 15px rgba(0,0,0,0.15);
   }
-
+  
   .sticker-peel span {
-    transform: rotate(-45deg) translate(20px, 20px); /* Start hidden off-center */
-    font-family: var(--font-heading-family); /* Use theme font for consistency */
+    /* Position the text in the bottom-right triangle quarter */
+    transform: rotate(-45deg) translate(20px, 20px); 
+    font-family: var(--font-heading-family); 
     font-weight: 800;
-    font-size: 1.6rem;
-    color: #3e2723;
-    line-height: 1.1;
+    font-size: 2.4rem;
+    color: #4e342e; /* Brown Ink */
+    line-height: 1;
     text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0; /* Indirectly hidden */
+    text-transform: lowercase;
+    letter-spacing: 2px;
+    opacity: 0; 
     transition: all 0.3s ease;
-    width: 100%;
     pointer-events: none;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+    white-space: nowrap;
   }
   
   .sticker-peel:hover span {
     opacity: 1;
-    transform: rotate(-45deg) translate(0, 0); /* Slide into view */
-    transition-delay: 0.1s; /* Reveal after peel expands */
+    /* Center visually in the triangle */
+    transform: rotate(-45deg) translate(20px, 20px); 
+    transition-delay: 0.1s; 
+  }
+  
+  /* Mobile: Always Unpeeled (Half Size) */
+  @media screen and (max-width: 749px) {
+    .sticker-peel {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.3) 100%);
+      box-shadow: -2px -2px 6px rgba(0,0,0,0.15);
+    }
+    .sticker-peel span {
+      opacity: 1;
+      font-size: 1.2rem; 
+      transform: rotate(-45deg) translate(5px, 5px);
+      letter-spacing: 0.5px;
+    }
+    .sticker-wall-section .sticker-canvas {
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 80px), calc(100% - 80px) 100%, 0 100%) !important;
+    }
   }
   
   /* Reuse Packing Tape Header */
@@ -206,7 +232,7 @@
   <div class="sticker-container-wrapper">
     {%- if section.settings.collection != blank -%}
       <a href="{{ section.settings.collection.url }}" class="sticker-peel">
-        <span>See<br>All</span>
+        <span>see all</span>
       </a>
     {%- endif -%}
 

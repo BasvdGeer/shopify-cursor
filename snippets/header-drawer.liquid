@@ -30,6 +30,7 @@
                         class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %} {% cycle 'drawer_note': 'menu-note-color-1', 'menu-note-color-2', 'menu-note-color-3', 'menu-note-color-4', 'menu-note-color-5' %}"
                       >
                         {{ link.title | escape }}
+                        {% render 'icon-menu', handle: link.handle %}
                         <span class="svg-wrapper">
                           {{- 'icon-arrow.svg' | inline_asset_content -}}
                         </span>
@@ -129,6 +130,7 @@
                       {% endif %}
                     >
                       {{ link.title | escape }}
+                      {% render 'icon-menu', handle: link.handle %}
                     </a>
                   {%- endif -%}
                 </li>
