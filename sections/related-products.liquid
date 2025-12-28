@@ -10,6 +10,7 @@
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    overflow: hidden; /* Prevent horizontal scrollbar on body */
   }
 
   @media screen and (min-width: 750px) {
@@ -18,45 +19,266 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  /* --- HANGING POSTERS STYLES (Ported) --- */
+  
+  .hanging-wall-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 50px;
+    padding: 20px 20px 100px 20px; /* Generous padding */
+    max-width: 100%;
+    margin: 0;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+    list-style: none; /* Remove list bullets */
+  }
+  
+  .hanging-wall-grid::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .hanging-poster-card {
+    position: relative;
+    background: transparent;
+    padding: 0;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform-origin: center top;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 300px; /* Fixed width */
+    width: 300px;
+    scroll-snap-align: center;
+  }
+  
+  @media screen and (max-width: 750px) {
+    .hanging-poster-card {
+      flex: 0 0 250px;
+      width: 250px;
+    }
+  }
+
+  .hanging-poster-image-wrapper {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .hanging-poster-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    /* Soft, realistic shadow */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.06),
+                1px 2px 8px rgba(0,0,0,0.1); 
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+  }
+
+  /* Random Rotations */
+  .hanging-poster-card:nth-child(odd) { transform: rotate(-1.5deg); }
+  .hanging-poster-card:nth-child(even) { transform: rotate(1deg); }
+  .hanging-poster-card:nth-child(3n) { transform: rotate(-0.5deg); }
+  .hanging-poster-card:nth-child(4n) { transform: rotate(2deg); }
+
+  /* Hover Interaction */
+  .hanging-poster-card:hover {
+    transform: rotate(0deg) scale(1.03) translateY(-5px);
+    z-index: 10;
+  }
+
+  .hanging-poster-card:hover .hanging-poster-image {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 
+                0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hanging-poster-info {
+    text-align: center;
+    margin-top: 15px;
+    padding: 10px 15px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    width: auto;
+    display: inline-block;
+    color: #000;
+    transform: rotate(-1deg);
+    transition: transform 0.3s ease;
+  }
+
+  /* Post-it Release Colors */
+  .note-color-1 { background: #fff88f; } /* Yellow */
+  .note-color-2 { background: #ffb6b9; } /* Pink */
+  .note-color-3 { background: #a7e6ff; } /* Blue */
+  .note-color-4 { background: #b7ffb8; } /* Green */
+  .note-color-5 { background: #ffe0b5; } /* Orange */
+  
+  /* Random Sticky Note Rotations */
+  .hanging-poster-card:nth-child(odd) .hanging-poster-info { transform: rotate(2deg); }
+  .hanging-poster-card:nth-child(even) .hanging-poster-info { transform: rotate(-1.5deg); }
+  .hanging-poster-card:nth-child(3n) .hanging-poster-info { transform: rotate(1deg); }
+
+  .hanging-poster-card:hover .hanging-poster-info {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
+  }
+  
+  .hanging-poster-title {
+    font-size: 1.1rem;
+    font-weight: 800; /* Bold */
+    margin: 0;
+    line-height: 1.2;
+    color: #000;
+    font-family: var(--font-heading-family);
+  }
+
+  /* Navigation Arrows - Sticky Note Style */
+  .scroll-arrow {
+    position: absolute;
+    top: 50%;
+    width: 50px;
+    height: 50px;
+    background: #fef08a; /* Sticky Note Yellow */
+    border: none;
+    border-radius: 2px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.2s ease;
+    opacity: 0.9;
+    color: #000;
+  }
+  
+  .scroll-arrow:hover {
+    opacity: 1;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
+    transform: translateY(-50%) scale(1.1) rotate(0deg) !important; 
+  }
+  
+  .scroll-prev { left: 60px; transform: translateY(-50%) rotate(-5deg); }
+  .scroll-next { right: 60px; transform: translateY(-50%) rotate(5deg); }
+  
+  /* Masking Tape Header Style */
+  .masking-tape-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    padding: 10px;
+  }
+
+  .masking-tape-label {
+    background: linear-gradient(175deg, rgba(227, 207, 160, 0.95) 0%, rgba(210, 185, 130, 0.95) 100%);
+    color: #1a1a2e;
+    padding: 10px 40px;
+    font-size: 2.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transform: rotate(-2deg) skew(-1deg);
+    box-shadow: 4px 4px 8px rgba(0,0,0,0.2), inset 0 0 10px rgba(0,0,0,0.05);
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.2);
+    clip-path: polygon(
+      2% 0%, 98% 0%, 
+      100% 5%, 99% 10%, 100% 15%, 98% 20%, 100% 25%, 99% 30%, 100% 35%, 98% 40%, 100% 45%, 99% 50%, 100% 55%, 98% 60%, 100% 65%, 99% 70%, 100% 75%, 98% 80%, 100% 85%, 99% 90%, 100% 95%, 98% 100%,
+      2% 100%, 
+      0% 95%, 1% 90%, 0% 85%, 2% 80%, 0% 75%, 1% 70%, 0% 65%, 2% 60%, 0% 55%, 1% 50%, 0% 45%, 2% 40%, 0% 35%, 1% 30%, 0% 25%, 2% 20%, 0% 15%, 1% 10%, 0% 5%
+    );
+    opacity: 0.98;
+    z-index: 2;
+  }
+
+  @media screen and (max-width: 750px) {
+    .scroll-arrow { display: none; }
+  }
 {%- endstyle -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <product-recommendations
-    class="related-products page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    class="related-products section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
     data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}"
     data-section-id="{{ section.id }}"
     data-product-id="{{ product.id }}"
   >
     {% if recommendations.performed and recommendations.products_count > 0 %}
-      <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
-        {{ section.settings.heading }}
-      </h2>
-      <ul
-        class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
-        role="list"
-      >
-        {% assign skip_card_product_styles = false %}
-        {% for recommendation in recommendations.products %}
-          <li class="grid__item">
-            {% render 'card-product',
-              card_product: recommendation,
-              media_aspect_ratio: section.settings.image_ratio,
-              image_shape: section.settings.image_shape,
-              show_secondary_image: section.settings.show_secondary_image,
-              show_vendor: section.settings.show_vendor,
-              show_rating: section.settings.show_rating,
-              skip_styles: skip_card_product_styles
-            %}
-          </li>
-          {%- assign skip_card_product_styles = true -%}
-        {% endfor %}
-      </ul>
+      <div class="masking-tape-wrapper">
+        <h2 class="related-products__heading masking-tape-label">
+          {{ section.settings.heading }}
+        </h2>
+      </div>
+
+      <div class="hanging-wall-wrapper" style="position: relative; width: 100%;">
+        <button class="scroll-arrow scroll-prev" aria-label="Previous">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+
+        <ul class="hanging-wall-grid" role="list">
+          {% for recommendation in recommendations.products %}
+            <li class="hanging-poster-card">
+              <a href="{{ recommendation.url }}" style="text-decoration: none; color: inherit; display: contents;">
+                 <div class="hanging-poster-image-wrapper">
+                    <img
+                      src="{{ recommendation.featured_media | image_url: width: 533 }}"
+                      alt="{{ recommendation.featured_media.alt | escape }}"
+                      loading="lazy"
+                      width="{{ recommendation.featured_media.width }}"
+                      height="{{ recommendation.featured_media.height }}"
+                      class="hanging-poster-image"
+                    >
+                 </div>
+                 <div class="hanging-poster-info {% cycle 'note_c': 'note-color-1', 'note-color-2', 'note-color-3', 'note-color-4', 'note-color-5' %}">
+                   <h3 class="hanging-poster-title">{{ recommendation.title }}</h3>
+                 </div>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+
+        <button class="scroll-arrow scroll-next" aria-label="Next">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
     {% endif %}
   </product-recommendations>
-  {% if section.settings.image_shape == 'arch' %}
-    {{ 'mask-arch.svg' | inline_asset_content }}
-  {%- endif -%}
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Handling async loading of recommendations
+    const observer = new MutationObserver((mutations) => {
+      const container = document.querySelector('.related-products');
+      if (container) {
+          const grid = container.querySelector('.hanging-wall-grid');
+          const prevBtn = container.querySelector('.scroll-prev');
+          const nextBtn = container.querySelector('.scroll-next');
+          
+          if (grid && prevBtn && nextBtn) {
+              // Attach listeners (ensure not adding duplicates if multiple mutations)
+              prevBtn.onclick = function() {
+                   grid.scrollBy({ left: -350, behavior: 'smooth' });
+              };
+              nextBtn.onclick = function() {
+                   grid.scrollBy({ left: 350, behavior: 'smooth' });
+              };
+          }
+      }
+    });
+
+    const productsContainer = document.querySelector('.related-products');
+    if (productsContainer) {
+      observer.observe(productsContainer, { childList: true, subtree: true });
+    }
+  });
+</script>
 
 {% schema %}
 {
@@ -71,70 +293,17 @@
     {
       "type": "inline_richtext",
       "id": "heading",
-      "default": "t:sections.related-products.settings.paragraph__1.default",
+      "default": "You may also like",
       "label": "t:sections.related-products.settings.heading.label"
-    },
-    {
-      "type": "select",
-      "id": "heading_size",
-      "options": [
-        {
-          "value": "h2",
-          "label": "t:sections.all.heading_size.options__1.label"
-        },
-        {
-          "value": "h1",
-          "label": "t:sections.all.heading_size.options__2.label"
-        },
-        {
-          "value": "h0",
-          "label": "t:sections.all.heading_size.options__3.label"
-        },
-        {
-          "value": "hxl",
-          "label": "t:sections.all.heading_size.options__4.label"
-        },
-        {
-          "value": "hxxl",
-          "label": "t:sections.all.heading_size.options__5.label"
-        }
-      ],
-      "default": "h1",
-      "label": "t:sections.all.heading_size.label"
     },
     {
       "type": "range",
       "id": "products_to_show",
       "min": 2,
-      "max": 10,
+      "max": 15,
       "step": 1,
-      "default": 4,
+      "default": 8,
       "label": "t:sections.related-products.settings.products_to_show.label"
-    },
-    {
-      "type": "range",
-      "id": "columns_desktop",
-      "min": 1,
-      "max": 6,
-      "step": 1,
-      "default": 4,
-      "label": "t:sections.related-products.settings.columns_desktop.label"
-    },
-    {
-      "type": "select",
-      "id": "columns_mobile",
-      "default": "2",
-      "label": "t:sections.related-products.settings.columns_mobile.label",
-      "options": [
-        {
-          "value": "1",
-          "label": "t:sections.related-products.settings.columns_mobile.options__1.label"
-        },
-        {
-          "value": "2",
-          "label": "t:sections.related-products.settings.columns_mobile.options__2.label"
-        }
-      ]    
     },
     {
       "type": "color_scheme",
@@ -142,89 +311,6 @@
       "label": "t:sections.all.colors.label",
       "info": "t:sections.all.colors.has_cards_info",
       "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.related-products.settings.header__2.content"
-    },
-    {
-      "type": "select",
-      "id": "image_ratio",
-      "options": [
-        {
-          "value": "adapt",
-          "label": "t:sections.related-products.settings.image_ratio.options__1.label"
-        },
-        {
-          "value": "portrait",
-          "label": "t:sections.related-products.settings.image_ratio.options__2.label"
-        },
-        {
-          "value": "square",
-          "label": "t:sections.related-products.settings.image_ratio.options__3.label"
-        }
-      ],
-      "default": "adapt",
-      "label": "t:sections.related-products.settings.image_ratio.label"
-    },
-    {
-      "type": "select",
-      "id": "image_shape",
-      "options": [
-        {
-          "value": "default",
-          "label": "t:sections.all.image_shape.options__1.label"
-        },
-        {
-          "value": "arch",
-          "label": "t:sections.all.image_shape.options__2.label"
-        },
-        {
-          "value": "blob",
-          "label": "t:sections.all.image_shape.options__3.label"
-        },
-        {
-          "value": "chevronleft",
-          "label": "t:sections.all.image_shape.options__4.label"
-        },
-        {
-          "value": "chevronright",
-          "label": "t:sections.all.image_shape.options__5.label"
-        },
-        {
-          "value": "diamond",
-          "label": "t:sections.all.image_shape.options__6.label"
-        },
-        {
-          "value": "parallelogram",
-          "label": "t:sections.all.image_shape.options__7.label"
-        },
-        {
-          "value": "round",
-          "label": "t:sections.all.image_shape.options__8.label"
-        }
-      ],
-      "default": "default",
-      "label": "t:sections.all.image_shape.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_secondary_image",
-      "default": false,
-      "label": "t:sections.related-products.settings.show_secondary_image.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_vendor",
-      "default": false,
-      "label": "t:sections.related-products.settings.show_vendor.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_rating",
-      "default": false,
-      "label": "t:sections.related-products.settings.show_rating.label",
-      "info": "t:sections.related-products.settings.show_rating.info"
     },
     {
       "type": "header",
@@ -249,6 +335,16 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    },
+     {
+      "type": "select",
+      "id": "image_shape",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "blob", "label": "Blob" }
+      ],
+      "default": "default",
+      "label": "Image Shape (Background only)"
     }
   ]
 }

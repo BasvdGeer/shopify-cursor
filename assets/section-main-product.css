@@ -1630,34 +1630,78 @@ a.product__text {
 }
 
 /* Quantity Selector - Blue Sticky Note */
+/* Quantity Selector - Three Separate Blue Sticky Notes */
 .quantity {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: auto !important;
+  display: inline-flex !important;
+  gap: 1.5rem !important;
+  /* Space between notes */
+  align-items: center;
+}
+
+/* Minus and Plus Buttons */
+.quantity__button {
   background-color: #a7e6ff !important;
   /* Menu Blue */
+  color: #000 !important;
   border: none !important;
   outline: none !important;
   border-radius: 2px !important;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15) !important;
-  transform: rotate(-0.5deg);
-  width: auto !important;
-  display: inline-flex !important;
+  width: 4rem !important;
+  /* Proper square size */
+  height: 4rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
+.quantity__button:first-child {
+  transform: rotate(-3deg);
+}
+
+.quantity__button:last-child {
+  transform: rotate(2deg);
+}
+
+.quantity__button:hover {
+  transform: scale(1.1) rotate(0deg) !important;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2) !important;
+  background-color: #a7e6ff !important;
+}
+
+/* Input Field (Middle Note) */
 .quantity__input {
+  background-color: #a7e6ff !important;
+  /* Menu Blue */
   font-family: inherit !important;
   color: #000 !important;
-  font-weight: 400 !important;
+  font-weight: 700 !important;
   border: none !important;
   outline: none !important;
-  background: transparent !important;
+  border-radius: 2px !important;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15) !important;
   width: 5rem !important;
+  height: 4rem !important;
+  text-align: center !important;
+  padding: 0 !important;
+  transform: rotate(1deg);
+  -moz-appearance: textfield;
+  /* Remove spinner */
 }
 
-.quantity__button {
-  color: #000 !important;
-  border: none !important;
-  outline: none !important;
-  background: transparent !important;
+.quantity__input::-webkit-outer-spin-button,
+.quantity__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
+
+
 
 
 /* FORCE REMOVE ALL BORDERS/OUTLINES from Buttons */
@@ -1671,20 +1715,19 @@ a.product__text {
 .shopify-payment-button__button:active,
 .shopify-payment-button__button:focus-visible,
 .shopify-payment-button__button [role="button"],
-.quantity,
-.quantity:focus,
-.quantity:active,
-.quantity:focus-visible,
 .quantity__input,
-.quantity__button {
+.quantity__button,
+.quantity__input:focus,
+.quantity__button:focus {
   border: 0 !important;
+
   outline: none !important;
   outline-offset: 0 !important;
   appearance: none !important;
   -webkit-appearance: none !important;
 }
 
-/* Kill pseudo-element borders/shadows often used by themes */
+/* Kill pseudo-element borders/shadows/backgrounds often used by themes */
 .product-form__submit::after,
 .product-form__submit::before,
 .shopify-payment-button__button::after,
@@ -1696,17 +1739,30 @@ a.product__text {
   border: none !important;
   box-shadow: none !important;
   outline: none !important;
+  background: transparent !important;
+  /* Fix white pill background */
 }
+
 
 
 /* Ensure shadows remain (re-declaring just in case specificity needs it) */
 .product-form__submit,
 .shopify-payment-button__button--unbranded,
-.quantity {
+.quantity__button,
+.quantity__input {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15) !important;
 }
 
-.product-form__submit:hover,
-.shopify-payment-button__button--unbranded:hover {
-  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2) !important;
+
+
+/* Ensure quantity container is transparent */
+.product-form__quantity,
+.product-form__input,
+.product-form__input--quantity,
+.price-per-item__container,
+quantity-input {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }

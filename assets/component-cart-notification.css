@@ -18,25 +18,22 @@
   transform: translateY(-100%);
   visibility: hidden;
   width: 100%;
-  box-shadow: var(--popup-shadow-horizontal-offset) var(--popup-shadow-vertical-offset) var(--popup-shadow-blur-radius)
-    rgba(var(--color-shadow), var(--popup-shadow-opacity));
+  box-shadow: var(--popup-shadow-horizontal-offset) var(--popup-shadow-vertical-offset) var(--popup-shadow-blur-radius) rgba(var(--color-shadow), var(--popup-shadow-opacity));
   z-index: -1;
 }
 
 .cart-notification.focused {
   box-shadow: 0 0 0.2rem 0 rgba(var(--color-foreground), 0.3),
-    var(--popup-shadow-horizontal-offset) var(--popup-shadow-vertical-offset) var(--popup-shadow-blur-radius)
-      rgba(var(--color-shadow), var(--popup-shadow-opacity));
+    var(--popup-shadow-horizontal-offset) var(--popup-shadow-vertical-offset) var(--popup-shadow-blur-radius) rgba(var(--color-shadow), var(--popup-shadow-opacity));
 }
 
 .cart-notification:focus-visible {
   box-shadow: 0 0 0.2rem 0 rgba(var(--color-foreground), 0.3),
-    var(--popup-shadow-horizontal-offset) var(--popup-shadow-vertical-offset) var(--popup-shadow-blur-radius)
-      rgba(var(--color-shadow), var(--popup-shadow-opacity));
+    var(--popup-shadow-horizontal-offset) var(--popup-shadow-vertical-offset) var(--popup-shadow-blur-radius) rgba(var(--color-shadow), var(--popup-shadow-opacity));
 }
 
 @media screen and (min-width: 750px) {
-  .header-wrapper:not(.header-wrapper--border-bottom) + cart-notification .cart-notification {
+  .header-wrapper:not(.header-wrapper--border-bottom)+cart-notification .cart-notification {
     border-top-width: var(--popup-border-width);
   }
 
@@ -48,7 +45,7 @@
 }
 
 @media screen and (min-width: 990px) {
-  .cart-notification-wrapper:is(.page-width) > .cart-notification {
+  .cart-notification-wrapper:is(.page-width)>.cart-notification {
     right: 4rem;
   }
 }
@@ -91,7 +88,7 @@
   text-align: center;
 }
 
-.cart-notification__links > * {
+.cart-notification__links>* {
   margin-top: 1rem;
 }
 
@@ -117,7 +114,93 @@
   content: none;
 }
 
-.cart-notification-product__name {
-  margin-bottom: 0.5rem;
-  margin-top: 0;
+
+/* --- PARCHMENT CART NOTIFICATION STYLES --- */
+
+/* Fix persistent black outlines on notification buttons */
+.cart-notification__links .button,
+.cart-notification__links .button:hover,
+.cart-notification__links .button:focus,
+.cart-notification__links .button::after,
+.cart-notification__links .button::before {
+  border: none !important;
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+.cart-notification__links .button:hover {
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.cart-notification__links .button::after {
+  content: none !important;
+  box-shadow: none !important;
+}
+
+.cart-notification {
+  background-color: rgba(227, 213, 184, 0.95) !important;
+  /* Parchment Paper */
+  backdrop-filter: blur(5px);
+  border: none !important;
+  border-radius: 2px !important;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 0 20px rgba(0, 0, 0, 0.05) !important;
+  /* Inner shadow for depth */
+  z-index: 200 !important;
+  /* Ensure it sits above the sticky header (z-index: 100) */
+}
+
+/* Header & Text */
+.cart-notification__heading,
+.cart-notification-product__name,
+.cart-notification-product__option {
+  font-family: 'Courier New', Courier, monospace !important;
+  color: #1a1a2e !important;
+  /* Ink color */
+}
+
+.cart-notification__heading {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Image "Polaroid" Style */
+.cart-notification-product__image {
+  border: 4px solid #fff;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  transform: rotate(-2deg);
+}
+
+/* Checkout Button - Yellow Sticky Note */
+.cart-notification__links .button {
+  background: #fff88f !important;
+  /* Menu Yellow */
+  color: #000 !important;
+  font-family: 'Courier New', Courier, monospace !important;
+  font-size: 1.6rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  border: none !important;
+  border-radius: 2px !important;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2) !important;
+  transform: rotate(-1deg);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  margin-top: 1.5rem;
+}
+
+.cart-notification__links .button:hover {
+  transform: scale(1.05) rotate(0deg) !important;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15) !important;
+  background: #fff88f !important;
+}
+
+.cart-notification__links .link {
+  font-family: 'Courier New', Courier, monospace !important;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
 }
