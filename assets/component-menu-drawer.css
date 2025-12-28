@@ -116,26 +116,31 @@ details[open].menu-opening>.menu-drawer__submenu {
 
 .menu-drawer__menu-item {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  margin: 0 5px 8px 5px;
-  /* Spacing */
-  padding: 8px 12px;
+  margin: 10px;
+  /* More breathing room */
+  padding: 15px 30px;
+  /* Larger "note" feel */
   color: #000;
   text-decoration: none;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.15);
+  /* Stronger shadow */
   border-radius: 2px;
   display: inline-flex;
   width: auto;
-  /* Allow sizing to content */
-  font-size: 1.6rem;
-  /* Adjust font size */
+  min-width: 150px;
+  /* Ensure they have some substance */
+  justify-content: center;
+  font-size: 2.2rem;
+  /* Bigger, playful text */
+  font-weight: 600;
+  text-align: center;
 }
 
 .menu-drawer__menu-item:hover {
-  transform: scale(1.05) rotate(0deg) !important;
-  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1) rotate(0deg) !important;
+  box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.2);
   z-index: 10;
   background-color: transparent;
-  /* Reset any default */
 }
 
 /* Sticky Note Colors (Matching Posters) - Duplicate for Drawer robustness */
@@ -159,10 +164,22 @@ details[open].menu-opening>.menu-drawer__submenu {
   background: #ffe0b5;
 }
 
-/* Drawer Layout: Align items to start and remove full width */
+/* Drawer Layout: Align items to center */
 .menu-drawer__menu li {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
+  /* Center horizontally */
+  align-items: center;
+  width: 100%;
+}
+
+.menu-drawer__navigation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Center vertically if container allows */
+  min-height: 60vh;
+  /* Push items to middle of screen visually */
 }
 
 .menu-drawer summary.menu-drawer__menu-item {
