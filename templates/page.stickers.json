@@ -14,7 +14,8 @@
       "settings": {
         "collection": "stickers",
         "products_to_show": 12,
-        "title": "All Stickers",
+        "title": "Little pieces of pride that stick around",
+        "description": "<p>We believe in taking up space even in the smallest ways. We designed each one to bring a pop of color and a lot of personality to your daily gear; whether you are into cute bears or swirling rainbows we have a design that matches your vibe. It is a simple way to carry a bit of joy with you wherever you go.</p><p><br/></p><p>We print these on high-quality material so the colors stay vibrant through daily wear and tear. You can pick up a single favorite for 2 euros. We also want you to have fun mixing and matching so you can grab any 3 stickers for just 5 euros!</p>",
         "heading_size": "h1",
         "columns_desktop": 3,
         "columns_mobile": "2",
