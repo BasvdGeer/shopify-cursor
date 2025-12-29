@@ -1,0 +1,626 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.image_shape == 'blob' %}
+  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{%- unless section.settings.quick_add == 'none' -%}
+  {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endunless -%}
+
+{%- if section.settings.quick_add == 'standard' -%}
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- if section.settings.quick_add == 'bulk' -%}
+  <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* --- STICKER GRID CUSTOM STYLES --- */
+  
+  /* Remove Card Backgrounds */
+  .section-{{ section.id }}-padding .card,
+  .section-{{ section.id }}-padding .card-wrapper,
+  .section-{{ section.id }}-padding .card__inner,
+  .section-{{ section.id }}-padding .card__content,
+  .section-{{ section.id }}-padding .card__media {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    --color-background: transparent;
+    --gradient-background: transparent;
+    --shadow-horizontal-offset: 0px;
+    --shadow-vertical-offset: 0px;
+    --shadow-blur-radius: 0px;
+    --shadow-opacity: 0;
+  }
+  
+  /* Kill the ::after pseudo-element that often holds borders */
+  .section-{{ section.id }}-padding .card:after,
+  .section-{{ section.id }}-padding .card-wrapper:after,
+  .section-{{ section.id }}-padding .card__inner:after {
+    display: none !important;
+  }
+  
+  .section-{{ section.id }}-padding .media--transparent {
+     background-color: transparent !important;
+  }
+
+  /* Die-Cut Outline Effect on Images (Optimized) */
+  .section-{{ section.id }}-padding .card__media img {
+    /* Reduced to 4 shadows for performance, plus hardware acceleration */
+    filter: 
+        drop-shadow(3px 0 0 white) 
+        drop-shadow(-3px 0 0 white) 
+        drop-shadow(0 3px 0 white) 
+        drop-shadow(0 -3px 0 white)
+        drop-shadow(3px 5px 8px rgba(0,0,0,0.2));
+        
+    will-change: transform, filter; /* Hint to browser */
+    transform: translateZ(0); /* Force GPU layer */
+    
+    transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    
+    /* Ensure image fits nicely */
+    object-fit: contain !important;
+    padding: 10px; /* Reduced padding to tighten */
+  }
+
+  /* Hover Interaction: Pop and Rotate */
+  .section-{{ section.id }}-padding .card-wrapper:hover .card__media img {
+    transform: scale(1.05) rotate(2deg) translateZ(0);
+    filter: 
+        drop-shadow(3px 0 0 white) 
+        drop-shadow(-3px 0 0 white) 
+        drop-shadow(0 3px 0 white) 
+        drop-shadow(0 -3px 0 white)
+        drop-shadow(6px 12px 16px rgba(0,0,0,0.25));
+  }
+
+  /* Info Area: Tighter flex container */
+  .section-{{ section.id }}-padding .card__content {
+    text-align: center;
+    padding-top: 5px; /* Way tighter to the image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px; /* Minimal gap */
+    flex-wrap: wrap; 
+  }
+  
+  /* Shared Sticky Note Style for Text */
+  .section-{{ section.id }}-padding .card__heading,
+  .section-{{ section.id }}-padding .card-information {
+    background: #fff88f; /* Yellow default */
+    padding: 8px 12px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+    color: #000;
+    width: auto;
+    max-width: 100%;
+    transition: transform 0.2s ease;
+    border-radius: 1px; /* Slight rounding for paper feel */
+  }
+
+  /* Title Specifics */
+  .section-{{ section.id }}-padding .card__heading {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 0;
+    transform: rotate(-2deg);
+    background: #fff88f; /* Yellow */
+    z-index: 2;
+  }
+  
+  .section-{{ section.id }}-padding .card__heading a {
+    text-decoration: none;
+    color: #000;
+  }
+
+  /* Price Specifics */
+  .section-{{ section.id }}-padding .card-information {
+    margin: 0;
+    transform: rotate(3deg);
+    background: #ffb6b9; /* Pink */
+    font-weight: bold;
+    font-family: var(--font-body-family); /* Or monospace looks cool too */
+    z-index: 1;
+  }
+  
+  /* Hover effects on the text notes */
+  .section-{{ section.id }}-padding .card-wrapper:hover .card__heading {
+     transform: rotate(0deg) scale(1.05);
+     z-index: 10;
+  }
+  
+  .section-{{ section.id }}-padding .card-wrapper:hover .card-information {
+     transform: rotate(0deg) scale(1.05);
+     z-index: 10;
+  }
+
+  /* Randomize rotations slightly using nth-child */
+  .section-{{ section.id }}-padding .grid__item:nth-child(even) .card__heading {
+    transform: rotate(2deg);
+  }
+  .section-{{ section.id }}-padding .grid__item:nth-child(even) .card-information {
+    transform: rotate(-3deg);
+    background: #a7e6ff; /* Blue for variety */
+  }
+    /* Selection State */
+    .sticker-select-wrapper {
+      position: relative; /* CRITICAL: Anchor for absolute overlay */
+      overflow: visible; /* Allow post-its to hang out */
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-wrapper.is-selected .card__media img {
+      transform: scale(0.95) rotate(0deg) translateZ(0);
+      filter: 
+          drop-shadow(1px 0 0 white) 
+          drop-shadow(-1px 0 0 white) 
+          drop-shadow(0 1px 0 white) 
+          drop-shadow(0 -1px 0 white)
+          drop-shadow(2px 4px 6px rgba(0,0,0,0.1)) 
+          brightness(0.9); 
+    }
+    
+    .card-wrapper.is-selected::after {
+      content: '✔';
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 40px;
+      height: 40px;
+      background: #b7ffb8;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #008a0e;
+      font-size: 24px;
+      font-weight: bold;
+      transform: rotate(10deg);
+      box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      z-index: 65; /* Above post-its if needed? Or same level? */
+      animation: stamp 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    @keyframes stamp {
+      0% { transform: scale(3) rotate(10deg); opacity: 0; }
+      100% { transform: scale(1) rotate(10deg); opacity: 1; }
+    }
+
+    /* Hide Price in this section only */
+    .card-information .price {
+      display: none !important;
+    }
+
+    /* Quantity Controls (Post-it style) - Permanent Visibility */
+    .quantity-note {
+      position: absolute;
+      bottom: 25px; /* Moved up to sit on the card/yellow note */
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      background: #ffb6b9; /* Pink */
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      z-index: 60; 
+      width: max-content;
+      pointer-events: auto; /* Always interactive */
+    }
+
+    /* Active state (for scale/pop effect maybe?) */
+    .quantity-note.is-active {
+      transform: translateX(-50%) rotate(0deg) scale(1.1);
+      box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+    }
+
+    .qty-btn {
+      background: rgba(255,255,255,0.4);
+      border: 1px solid rgba(0,0,0,0.1);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .qty-btn:hover { 
+      background: #fff; 
+      transform: scale(1.1);
+    }
+    /* Disable bounce on mobile maybe? */
+
+    .qty-display {
+      font-weight: 800;
+      font-size: 1.3rem;
+      min-width: 24px;
+      text-align: center;
+      color: #333;
+    }
+
+    /* Adjust Card Info spacing since price is gone */
+    .section-{{ section.id }}-padding .card-information {
+      padding-bottom: 30px; /* Make room for the quantity note if needed */
+    }
+{%- endstyle -%}
+
+{%- liquid
+  assign products_to_display = section.settings.collection.all_products_count
+
+  if section.settings.collection.all_products_count > section.settings.products_to_show
+    assign products_to_display = section.settings.products_to_show
+    assign more_in_collection = true
+  endif
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} isolate gradient">
+  <div class="collection section-{{ section.id }}-padding">
+    
+    <div class="collection__title title-wrapper title-wrapper--no-top-margin page-width center">
+       {%- if section.settings.title != blank -%}
+        <h2 class="title inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.title }}
+        </h2>
+        <div class="collection__description">
+          <p>Tap + to build your bundle!</p>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Sticker Grid -->
+    <div class="page-width">
+      <ul class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down" role="list">
+        {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+          <li class="grid__item">
+            <!-- Wrapper with Data Attribute for Selection -->
+            <div class="sticker-select-wrapper" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
+                
+                {% render 'card-product',
+                  card_product: product,
+                  media_aspect_ratio: section.settings.image_ratio,
+                  image_shape: section.settings.image_shape,
+                  show_secondary_image: section.settings.show_secondary_image,
+                  show_vendor: section.settings.show_vendor,
+                  show_rating: section.settings.show_rating,
+                  section_id: section.id
+                %}
+
+                <!-- Quantity Controls Overlay -->
+                <!-- We remove the full-cover click to allow natural hover, but maybe hijacking image click is still good? 
+                     User specifically asked for +1 -1 buttons. Let's put those in. -->
+                <div class="quantity-note" id="qty-note-{{ product.selected_or_first_available_variant.id }}">
+                   <button type="button" class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                   <span class="qty-display" data-current="0">0</span>
+                   <button type="button" class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                </div>
+                
+                <!-- Helper overlay to ensure click on image triggers +1 if 0 -->
+                 <div class="selection-trigger" onclick="initialClick(this)"></div>
+
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    <!-- Floating Tracker HTML -->
+    <div class="sticker-tracker" id="StickerTracker">
+      <div class="tracker-tape"></div>
+      <div class="tracker-title">My Sticker Pack</div>
+      <div class="tracker-count" id="TrackerCount">0/3</div>
+      <div class="tracker-subtext" id="TrackerMsg">Pick 3 stickers to unlock the €5 bundle deal!</div>
+      <button class="tracker-btn" id="TrackerBtn" onclick="window.addBundleToCart()" disabled>Add Bundle (€5)</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  window.stickerState = {
+    items: {}, // Map variantId -> quantity
+    required: 3
+  };
+
+  // If user clicks the image directly and qty is 0, start at 1
+  window.initialClick = function(trigger) {
+      const wrapper = trigger.closest('.sticker-select-wrapper');
+      const qtyNote = wrapper.querySelector('.quantity-note');
+      const display = qtyNote.querySelector('.qty-display');
+      
+      let current = parseInt(display.dataset.current || 0);
+      if (current === 0) {
+          window.updateQty(qtyNote.querySelector('.qty-btn:last-child'), 1); // Simulate + click
+      }
+  };
+
+  window.updateQty = function(btn, change) {
+    const wrapper = btn.closest('.sticker-select-wrapper');
+    const variantId = wrapper.dataset.variantId;
+    const qtyNote = wrapper.querySelector('.quantity-note');
+    const display = qtyNote.querySelector('.qty-display');
+    const cardWrapper = wrapper.querySelector('.card-wrapper');
+
+    let current = parseInt(display.dataset.current || 0);
+    let newQty = current + change;
+    
+    if (newQty < 0) newQty = 0;
+    
+    // Update local UI
+    display.innerText = newQty;
+    display.dataset.current = newQty;
+    
+    // Update State
+    if (newQty > 0) {
+        window.stickerState.items[variantId] = newQty;
+        cardWrapper.classList.add('is-selected');
+        qtyNote.classList.add('is-active');
+        
+        // Remove trigger overlay so user can interact with buttons more easily? 
+        // Actually, trigger is absolute cover. We need to control Z-index.
+        // The .quantity-note has z-index 60, .selection-trigger has 50. 
+        // So buttons should be clickable.
+    } else {
+        delete window.stickerState.items[variantId];
+        cardWrapper.classList.remove('is-selected');
+        qtyNote.classList.remove('is-active');
+    }
+
+    window.updateTracker();
+  };
+
+  window.updateTracker = function() {
+    const tracker = document.getElementById('StickerTracker');
+    const countEl = document.getElementById('TrackerCount');
+    const msgEl = document.getElementById('TrackerMsg');
+    const btn = document.getElementById('TrackerBtn');
+    
+    // Sum total items
+    const totalCount = Object.values(window.stickerState.items).reduce((a, b) => a + b, 0);
+    
+    if (totalCount > 0) {
+        tracker.style.display = 'block';
+        tracker.classList.add('is-visible');
+    } else {
+         tracker.classList.remove('is-visible');
+    }
+    
+    countEl.innerText = `${totalCount}/${window.stickerState.required}`;
+    
+    if (totalCount < window.stickerState.required) {
+       tracker.classList.remove('is-complete');
+       msgEl.innerText = `Pick ${window.stickerState.required - totalCount} more for the deal!`;
+       btn.innerText = `Add ${totalCount} Item${totalCount !== 1 ? 's' : ''}`;
+       btn.disabled = false;
+    } else if (totalCount === window.stickerState.required) {
+       tracker.classList.add('is-complete');
+       msgEl.innerText = "Bundle Complete! Discount applied at checkout.";
+       btn.innerText = "Add Bundle to Cart";
+       btn.disabled = false;
+    } else {
+       tracker.classList.add('is-complete');
+       msgEl.innerText = `${totalCount} stickers selected. Bulk savings!`;
+       btn.innerText = "Add All to Cart";
+       btn.disabled = false;
+    }
+  };
+
+  window.addBundleToCart = async function() {
+    const btn = document.getElementById('TrackerBtn');
+    const originalText = btn.innerText;
+    btn.innerText = 'Adding...';
+    btn.disabled = true;
+
+    // Convert keys/values to items array
+    const items = Object.entries(window.stickerState.items).map(([id, qty]) => ({
+      id: parseInt(id),
+      quantity: qty
+    }));
+    
+    if (items.length === 0) {
+        console.error('No items');
+        btn.innerText = 'Select items first';
+        return;
+    }
+
+    try {
+      const response = await fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: items })
+      });
+
+      const data = await response.json();
+      
+      if (data.items) {
+          btn.innerText = 'Added!';
+          window.location.href = '/cart';
+      } else {
+          console.error('Error:', data);
+          alert('Failed to add: ' + (data.description || 'Unknown error'));
+          btn.innerText = 'Error';
+          btn.disabled = false;
+      }
+    } catch (error) {
+      console.error(error);
+      btn.innerText = 'Error';
+      btn.disabled = false;
+      setTimeout(() => btn.innerText = originalText, 2000);
+    }
+  };
+</script>
+
+{% schema %}
+{
+  "name": "Sticker Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 12,
+      "label": "Stickers to show"
+    },     
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Stickers",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1",
+      "label": "Heading Size"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "Columns (Desktop)"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 column"
+        },
+        {
+          "value": "2",
+          "label": "2 columns"
+        }
+      ],
+      "default": "2",
+      "label": "Columns (Mobile)"
+    },    
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "Show second image on hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "Show vendor"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "Show rating"
+    },
+    {
+       "type": "select",
+       "id": "image_ratio",
+       "options": [
+         { "value": "adapt", "label": "Adapt to image" },
+         { "value": "portrait", "label": "Portrait" },
+         { "value": "square", "label": "Square" }
+       ],
+       "default": "adapt",
+       "label": "Image ratio"
+    },
+    {
+       "type": "select",
+       "id": "image_shape",
+       "options": [
+         { "value": "default", "label": "Default" },
+         { "value": "arch", "label": "Arch" },
+         { "value": "blob", "label": "Blob" },
+         { "value": "chevronleft", "label": "Chevron Left" },
+         { "value": "chevronright", "label": "Chevron Right" },
+         { "value": "diamond", "label": "Diamond" },
+         { "value": "parallelogram", "label": "Parallelogram" },
+         { "value": "round", "label": "Round" }
+       ],
+       "default": "default",
+       "label": "Image shape"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 36
+    },
+    {
+       "type": "color_scheme",
+       "id": "color_scheme",
+       "label": "Color Scheme",
+       "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticker Grid"
+    }
+  ]
+}
+{% endschema %}
