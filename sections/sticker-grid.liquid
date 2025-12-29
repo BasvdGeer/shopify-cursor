@@ -137,16 +137,27 @@
     color: #000;
   }
 
-  /* Price Specifics */
+  /* Price/Info Specifics - Cleaned Up */
   .section-{{ section.id }}-padding .card-information {
-    margin: 0;
-    transform: rotate(3deg);
-    background: #ffb6b9; /* Pink */
+    margin: 5px 0 0 0;
+    transform: none; /* No rotation */
+    background: transparent; /* No sticky note background */
+    box-shadow: none;
     font-weight: bold;
-    font-family: var(--font-body-family); /* Or monospace looks cool too */
+    font-family: var(--font-body-family);
     z-index: 1;
+    text-align: center;
+    padding-bottom: 10px; /* Reduced to bring buttons closer */
+    line-height: 1.2;
   }
   
+  /* Tighter Grid override - Reduced row-gap for density */
+  .section-{{ section.id }}-padding .grid {
+     column-gap: 10px;    
+     row-gap: 30px; /* Reduced to fit more rows */
+     margin-bottom: 30px;
+  }
+
   /* Hover effects on the text notes */
   .section-{{ section.id }}-padding .card-wrapper:hover .card__heading {
      transform: rotate(0deg) scale(1.05);
@@ -163,8 +174,8 @@
     transform: rotate(2deg);
   }
   .section-{{ section.id }}-padding .grid__item:nth-child(even) .card-information {
-    transform: rotate(-3deg);
-    background: #a7e6ff; /* Blue for variety */
+    transform: none;
+    background: transparent !important; /* Force remove blue note */
   }
     /* Selection State */
     .sticker-select-wrapper {
@@ -174,41 +185,45 @@
       height: 100%;
     }
 
+    .card-wrapper.is-selected .card__media {
+      /* Floating effect */
+      transform: translateY(-5px);
+      transition: transform 0.3s ease;
+    }
+
     .card-wrapper.is-selected .card__media img {
-      transform: scale(0.95) rotate(0deg) translateZ(0);
+      /* Golden Glow Highlight */
       filter: 
-          drop-shadow(1px 0 0 white) 
-          drop-shadow(-1px 0 0 white) 
-          drop-shadow(0 1px 0 white) 
-          drop-shadow(0 -1px 0 white)
-          drop-shadow(2px 4px 6px rgba(0,0,0,0.1)) 
-          brightness(0.9); 
+          drop-shadow(0 0 0px transparent)
+          drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); /* Gold glow */
+      transform: scale(1.02);
     }
     
     .card-wrapper.is-selected::after {
       content: '✔';
       position: absolute;
-      top: -10px;
-      right: -10px;
-      width: 40px;
-      height: 40px;
-      background: #b7ffb8;
+      top: -15px;
+      right: -15px;
+      width: 45px;
+      height: 45px;
+      background: #ffd700; /* Gold background */
+      border: 3px solid #fff;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #008a0e;
-      font-size: 24px;
-      font-weight: bold;
-      transform: rotate(10deg);
-      box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-      z-index: 65; /* Above post-its if needed? Or same level? */
-      animation: stamp 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      color: #fff;
+      font-size: 26px;
+      font-weight: 900;
+      transform: rotate(15deg);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 65; 
+      animation: stamp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
     @keyframes stamp {
-      0% { transform: scale(3) rotate(10deg); opacity: 0; }
-      100% { transform: scale(1) rotate(10deg); opacity: 1; }
+      0% { transform: scale(2) rotate(-10deg); opacity: 0; }
+      100% { transform: scale(1) rotate(15deg); opacity: 1; }
     }
 
     /* Hide Price in this section only */
@@ -219,59 +234,149 @@
     /* Quantity Controls (Post-it style) - Permanent Visibility */
     .quantity-note {
       position: absolute;
-      bottom: 25px; /* Moved up to sit on the card/yellow note */
+      bottom: -15px; /* Overlap the card slightly */
       left: 50%;
-      transform: translateX(-50%) rotate(-2deg);
-      background: #ffb6b9; /* Pink */
-      padding: 5px 10px;
+      transform: translateX(-50%);
+      padding: 0;
+      background: transparent;
+      box-shadow: none;
+      
       display: flex;
       align-items: center;
-      gap: 8px;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      gap: 5px; 
       z-index: 60; 
       width: max-content;
-      pointer-events: auto; /* Always interactive */
+      pointer-events: auto;
     }
 
-    /* Active state (for scale/pop effect maybe?) */
-    .quantity-note.is-active {
-      transform: translateX(-50%) rotate(0deg) scale(1.1);
-      box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
-    }
-
-    .qty-btn {
-      background: rgba(255,255,255,0.4);
-      border: 1px solid rgba(0,0,0,0.1);
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1.2rem;
-      color: #333;
+    /* Common Note Style */
+    .qty-note-item {
+      width: 50px; /* Bigger! */
+      height: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
+      font-weight: bold;
+      font-size: 2rem; /* Bigger font */
+      color: #000;
+      box-shadow: 2px 3px 6px rgba(0,0,0,0.15);
+      font-family: var(--font-heading-family); 
+      transition: transform 0.2s;
+      border-radius: 2px;
     }
-    .qty-btn:hover { 
-      background: #fff; 
-      transform: scale(1.1);
-    }
-    /* Disable bounce on mobile maybe? */
 
+    /* Specific Styles based on image */
+    .qty-btn-minus {
+      background: #d0eaef; /* Light Blue */
+      border: none;
+      transform: rotate(-3deg);
+      cursor: pointer;
+    }
+    .qty-btn-minus:hover { transform: rotate(-3deg) scale(1.1); }
+
+    .qty-display-wrapper {
+      background: #a9e0fa; /* Slightly darker blue */
+      transform: rotate(0deg); /* Straight */
+      z-index: 2; /* Sit on top if overlap */
+    }
+
+    .qty-btn-plus {
+      background: #a9e0fa; /* Same blue as center */
+      border: none;
+      transform: rotate(3deg);
+      cursor: pointer;
+    }
+    .qty-btn-plus:hover { transform: rotate(3deg) scale(1.1); }
+    
     .qty-display {
-      font-weight: 800;
-      font-size: 1.3rem;
-      min-width: 24px;
-      text-align: center;
-      color: #333;
+        background: transparent;
+        font-weight: 800;
+        font-size: 1.1rem;
     }
 
     /* Adjust Card Info spacing since price is gone */
     .section-{{ section.id }}-padding .card-information {
-      padding-bottom: 30px; /* Make room for the quantity note if needed */
+      padding-bottom: 30px; 
     }
+    /* Floating Tracker (Fixed Bottom Left) */
+    .sticker-tracker {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 100;
+      background: #fff;
+      border: 2px solid #000;
+      padding: 15px;
+      width: 280px;
+      box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
+      transform: rotate(-1deg);
+      display: none; /* JS will toggle */
+      font-family: var(--font-body-family);
+    }
+    
+    .tracker-tape {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 20px;
+      background: rgba(255,255,255,0.6);
+      border: 1px solid rgba(0,0,0,0.1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .tracker-title {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .tracker-count {
+      font-size: 2rem;
+      font-weight: 800;
+      text-align: center;
+      margin: 5px 0;
+      color: #333;
+    }
+    
+    .tracker-subtext {
+      font-size: 0.9rem;
+      text-align: center;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    
+    .tracker-btn {
+      width: 100%;
+      padding: 10px;
+      background: #000;
+      color: #fff;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .tracker-btn:hover {
+      background: #333;
+    }
+    .tracker-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
+    /* State: Complete */
+    .sticker-tracker.is-complete {
+      border-color: #ffd700;
+      background: #fffbe6;
+    }
+    .sticker-tracker.is-complete .tracker-count {
+      color: #d4af37;
+    }
+
 {%- endstyle -%}
 
 {%- liquid
@@ -319,9 +424,11 @@
                 <!-- We remove the full-cover click to allow natural hover, but maybe hijacking image click is still good? 
                      User specifically asked for +1 -1 buttons. Let's put those in. -->
                 <div class="quantity-note" id="qty-note-{{ product.selected_or_first_available_variant.id }}">
-                   <button type="button" class="qty-btn" onclick="updateQty(this, -1)">-</button>
-                   <span class="qty-display" data-current="0">0</span>
-                   <button type="button" class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                   <button type="button" class="qty-note-item qty-btn-minus" onclick="updateQty(this, -1)">-</button>
+                   <div class="qty-note-item qty-display-wrapper">
+                       <span class="qty-display" data-current="0">0</span>
+                   </div>
+                   <button type="button" class="qty-note-item qty-btn-plus" onclick="updateQty(this, 1)">+</button>
                 </div>
                 
                 <!-- Helper overlay to ensure click on image triggers +1 if 0 -->
@@ -332,7 +439,7 @@
         {%- endfor -%}
       </ul>
     </div>
-
+    
     <!-- Floating Tracker HTML -->
     <div class="sticker-tracker" id="StickerTracker">
       <div class="tracker-tape"></div>
@@ -359,7 +466,7 @@
       
       let current = parseInt(display.dataset.current || 0);
       if (current === 0) {
-          window.updateQty(qtyNote.querySelector('.qty-btn:last-child'), 1); // Simulate + click
+          window.updateQty(qtyNote.querySelector('.qty-btn-plus'), 1); // Simulate + click
       }
   };
 
@@ -407,20 +514,23 @@
     // Sum total items
     const totalCount = Object.values(window.stickerState.items).reduce((a, b) => a + b, 0);
     
-    if (totalCount > 0) {
-        tracker.style.display = 'block';
-        tracker.classList.add('is-visible');
-    } else {
-         tracker.classList.remove('is-visible');
-    }
+    // ALWAYS VISIBLE
+    tracker.style.display = 'block';
+    tracker.classList.add('is-visible');
     
     countEl.innerText = `${totalCount}/${window.stickerState.required}`;
     
     if (totalCount < window.stickerState.required) {
        tracker.classList.remove('is-complete');
        msgEl.innerText = `Pick ${window.stickerState.required - totalCount} more for the deal!`;
-       btn.innerText = `Add ${totalCount} Item${totalCount !== 1 ? 's' : ''}`;
-       btn.disabled = false;
+       // Logic: Can add individual items or wait for bundle. Let's allow add if > 0.
+       if (totalCount > 0) {
+           btn.innerText = `Add ${totalCount} Item${totalCount !== 1 ? 's' : ''}`;
+           btn.disabled = false;
+       } else {
+           btn.innerText = "Start Picking!";
+           btn.disabled = true;
+       }
     } else if (totalCount === window.stickerState.required) {
        tracker.classList.add('is-complete');
        msgEl.innerText = "Bundle Complete! Discount applied at checkout.";
@@ -433,6 +543,11 @@
        btn.disabled = false;
     }
   };
+  
+  // Initialize Tracker on Load
+  document.addEventListener('DOMContentLoaded', () => {
+      window.updateTracker();
+  });
 
   window.addBundleToCart = async function() {
     const btn = document.getElementById('TrackerBtn');
