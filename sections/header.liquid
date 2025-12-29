@@ -121,70 +121,175 @@
     z-index: -1;
   }
 
-  @media screen and (min-width: 990px) {
-    .header {
-      /* Grid Layout: 3 Columns, Auto Rows */
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      grid-template-areas: 
-        'left-icons heading icons'
-        'left-icons navigation icons';
-      align-items: start; /* Keep icons at top */
-    }
+    @media screen and (min-width: 990px) {
+      .header {
+        /* Grid Layout: 3 Columns */
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center; /* Center everything vertically in the row */
+        padding-top: 15px !important; /* Nice unified padding */
+        padding-bottom: 15px;
+        height: auto;
+      }
 
-    /* Stable Icons: Span both rows so they don't jump */
-    .header__icons {
-      grid-area: icons;
-      grid-row: 1 / span 2;
-    }
-    
-    /* If there are left icons (e.g. search), target them if they exist as a class */
-    .header__icons--left {
-       grid-area: left-icons;
-       grid-row: 1 / span 2;
-    }
+      /* 1. Left Search (if present) */
+      .header__search {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+        height: auto;
+        display: flex;
+        align-items: center;
+        margin-top: 0; 
+      }
+      
+      .header__search .header__icon {
+        height: 50px; 
+        width: 50px; 
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+      }
 
-    /* Logo Animation: Collapse max-height */
-    .header__heading,
-    .header__heading-link {
-      grid-area: heading;
-      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                  margin 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                  opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      max-height: 200px; /* Arbitrary large height to fit logo */
-      opacity: 1;
-      overflow: hidden;
-    }
+      /* 2. Logo: Positioned after Search in Col 1 */
+      .header__heading,
+      .header__heading-link {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+        margin: 0;
+        margin-left: 60px; /* Offset to clear the Search button */
+        max-width: 100px; /* Reduced slightly to balance with buttons */
+        max-height: 100px;
+        display: flex;
+        align-items: center; 
+      }
+      
+      .header__heading-logo-wrapper {
+        width: 100px; 
+      }
+      
+      .header__heading-logo {
+        width: 100%;
+        height: auto;
+      }
 
-    /* Menu: Slides up naturally when logo collapses */
-    .header__inline-menu {
-      grid-area: navigation;
-      justify-self: center;
-      transition: margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      margin-top: 2rem; /* Initial gap */
-    }
+      /* 3. Menu: Centered in Col 2 */
+      .header__inline-menu {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: center;
+        margin-top: 0;
+        margin-left: 0;
+        height: auto;
+        display: flex;
+        align-items: center;
+        transition: none !important; /* KILL ALL ANIMATION */
+      }
+      
+      .list-menu--inline {
+         justify-content: center;
+         align-items: center;
+         height: 100%;
+      }
+      
+      .list-menu__item {
+         height: 50px; /* Standard button height */
+         display: flex;
+         align-items: center; 
+      }
+      
+      .list-menu__item--link {
+          height: 100%; 
+          display: flex;
+          align-items: center; 
+      }
 
-    /* STICKY STATE */
-    .scrolled-past-header .header__heading,
-    .scrolled-past-header .header__heading-link {
-      max-height: 0;
-      margin: 0;
-      opacity: 0;
-      pointer-events: none;
-      /* Remove position:absolute to allow grid collapse logic to work */
-      position: static; 
-      visibility: visible; /* Let opacity handle visibility */
+      /* 4. Icons: Right aligned in Col 3 */
+      .header__icons {
+        grid-column: 3;
+        grid-row: 1;
+        justify-self: end;
+        margin-left: 0;
+        display: flex;
+        align-items: center;
+        height: auto; 
+        margin-top: 0; 
+      }
+      
+      .header__icon {
+        height: 50px; /* Square button 50x50 */
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      /* DISABLE ALL SCROLL ANIMATION CSS overrides */
+      .scrolled-past-header .header__heading,
+      .scrolled-past-header .header__heading-link {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+        position: static !important;
+        max-height: 100px !important;
+        width: auto !important;
+        pointer-events: auto !important;
+      }
+      
+      .scrolled-past-header .header__inline-menu {
+        margin-top: 0 !important;
+      }
     }
-
-    .scrolled-past-header .header__inline-menu {
-      margin-top: 0 !important;
-    }
-  }
 </style>
 
 {%- style -%}
   .header {
-    padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 3rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 3rem;
+    padding-top: 10px; 
+    padding-bottom: 10px; 
+    background-color: transparent; /* Transparent as requested */
+    border-bottom: none;
+  }
+  
+  /* HOTFIX: Remove Grey Bar Overlay from Menu/Search Icons */
+  .header summary::before,
+  .header summary::after,
+  .header details > summary::before {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      width: 0 !important;
+      background: transparent !important;
+  }
+
+  /* Force Sticky Header on Mobile (and Desktop) - Disable Hiding Animation */
+  sticky-header.header-wrapper,
+  .shopify-section-header-hidden,
+  .shopify-section-header-sticky {
+      transform: none !important;
+      position: sticky !important;
+      top: 0 !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transition: none !important;
+      height: auto !important; /* Prevent collapse */
+      background: transparent !important; /* Keep transparent */
+  }
+  
+  /* Mobile Specific Logo Sizing */
+  @media screen and (max-width: 989px) {
+      .header__heading-logo {
+          height: 44px !important; /* Match button size */
+          width: auto !important;
+          object-fit: contain;
+      }
+      .header__heading-logo-wrapper {
+          width: auto !important;
+          max-width: 150px; 
+      }
+      .header {
+          align-items: center; 
+      }
   }
 
   .section-header {
@@ -459,11 +564,14 @@
 
       if (this.predictiveSearch && this.predictiveSearch.isOpen) return;
 
-      if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
+      // Threshold: 20px instead of full header height
+      const threshold = this.headerBounds.top + 20;
+
+      if (scrollTop > this.currentScrollTop && scrollTop > threshold) {
         this.header.classList.add('scrolled-past-header');
         if (this.preventHide) return;
         requestAnimationFrame(this.hide.bind(this));
-      } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
+      } else if (scrollTop < this.currentScrollTop && scrollTop > threshold) {
         this.header.classList.add('scrolled-past-header');
         if (!this.preventReveal) {
           requestAnimationFrame(this.reveal.bind(this));
@@ -476,7 +584,7 @@
 
           requestAnimationFrame(this.hide.bind(this));
         }
-      } else if (scrollTop <= this.headerBounds.top) {
+      } else if (scrollTop <= threshold) {
         this.header.classList.remove('scrolled-past-header');
         requestAnimationFrame(this.reset.bind(this));
       }
