@@ -151,11 +151,25 @@
     line-height: 1.2;
   }
   
-  /* Tighter Grid override - Reduced row-gap for density */
+  /* Tighter Spacing using Standard Grid Variables */
   .section-{{ section.id }}-padding .grid {
-     column-gap: 10px;    
-     row-gap: 30px; /* Reduced to fit more rows */
+     /* Override standard Shopify grid gap variables locally */
+     --grid-desktop-horizontal-spacing: 10px;
+     --grid-desktop-vertical-spacing: 30px;
+     --grid-mobile-horizontal-spacing: 10px;
+     --grid-mobile-vertical-spacing: 30px;
+     
+     /* Ensure it respects the gap */
+     column-gap: var(--grid-mobile-horizontal-spacing);
+     row-gap: var(--grid-mobile-vertical-spacing);
      margin-bottom: 30px;
+  }
+  
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding .grid {
+      column-gap: var(--grid-desktop-horizontal-spacing);
+      row-gap: var(--grid-desktop-vertical-spacing);
+    }
   }
 
   /* Hover effects on the text notes */
@@ -397,7 +411,9 @@
           {{ section.settings.title }}
         </h2>
         <div class="collection__description">
-          <p>Tap + to build your bundle!</p>
+          {%- if section.settings.description != blank -%}
+            {{ section.settings.description }}
+          {%- endif -%}
         </div>
       {%- endif -%}
     </div>
@@ -619,6 +635,12 @@
       "id": "title",
       "default": "Stickers",
       "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "default": "<p>Tap + to build your bundle!</p>",
+      "label": "Description"
     },
     {
       "type": "select",

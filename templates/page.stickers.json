@@ -13,7 +13,7 @@
       "type": "sticker-grid",
       "settings": {
         "collection": "stickers",
-        "products_to_show": 24,
+        "products_to_show": 12,
         "title": "All Stickers",
         "heading_size": "h1",
         "columns_desktop": 3,
