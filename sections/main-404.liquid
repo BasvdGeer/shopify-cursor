@@ -1,23 +1,116 @@
 <style type="text/css">
-  .template-404 .title + * {
-    margin-top: 1rem;
+  .template-404 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: 2rem;
+    overflow: hidden; /* Catch any wild rotations */
   }
 
-  @media screen and (min-width: 750px) {
-    .template-404 .title + * {
-      margin-top: 2rem;
+  /* Post-it Note Base Style */
+  .post-it {
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.15);
+    color: #000;
+    text-decoration: none;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    margin: 1rem;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: var(--font-body-family); /* Or a handwriting font if available */
+  }
+
+  .post-it:hover {
+    transform: scale(1.05) rotate(0deg) !important;
+    box-shadow: 4px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+  }
+
+  /* Sizes */
+  .note-large {
+    width: 300px;
+    height: 300px;
+    z-index: 2;
+  }
+  
+  .note-medium {
+    width: 220px;
+    height: 220px;
+    z-index: 1;
+  }
+
+  .note-small {
+    width: 180px;
+    height: 180px;
+    z-index: 3;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  /* Colors */
+  .color-yellow { background: #fff88f; }
+  .color-pink { background: #ffb6b9; }
+  .color-green { background: #b7ffb8; }
+
+  /* Typography overrides for the notes */
+  .post-it h1 {
+    font-size: 6rem;
+    margin: 0;
+    line-height: 1;
+    color: #000;
+  }
+  
+  .post-it p {
+    font-size: 1.6rem;
+    margin-top: 1rem;
+    color: #000;
+  }
+
+  /* Responsive Stacking */
+  @media screen and (max-width: 750px) {
+    .template-404 {
+      flex-direction: column;
+      padding-top: 4rem;
+      padding-bottom: 4rem;
     }
+    
+    .post-it {
+      margin: -2rem 0; /* Overlap them slightly vertically */
+    }
+    
+    .note-large { width: 280px; height: 280px; }
+    .note-medium { width: 240px; height: 240px; }
+    
+    /* Less rotation on mobile to keep it readable */
+    .note-large { transform: rotate(-2deg); }
+    .note-medium { transform: rotate(1deg); }
+    .note-small { transform: rotate(-1deg); }
   }
 </style>
 
-<div class="template-404 page-width page-margin center">
-  <p>
-    {{ 'templates.404.subtext' | t }}
-  </p>
-  <h1 class="title">
-    {{ 'templates.404.title' | t }}
-  </h1>
-  <a href="{{ routes.all_products_collection_url }}" class="button">
-    {{ 'general.continue_shopping' | t }}
-  </a>
+<div class="template-404 page-width">
+  <div class="post-it-cluster">
+    
+    <!-- Funny Subtext (Pink) -->
+    <div class="post-it note-medium color-pink" style="transform: rotate(6deg); margin-right: -40px;">
+      <p>We looked everywhere,<br>but all we found were crumbs.</p>
+    </div>
+
+    <!-- Main Announcement (Yellow) -->
+    <div class="post-it note-large color-yellow" style="transform: rotate(-3deg);">
+      <h1>404</h1>
+      <p>The Bear Ate This Page</p>
+    </div>
+
+    <!-- Action Button (Green) -->
+    <a href="{{ routes.root_url }}" class="post-it note-small color-green" style="transform: rotate(-5deg); margin-left: -30px;">
+      Run back<br>to safety
+    </a>
+
+  </div>
 </div>
