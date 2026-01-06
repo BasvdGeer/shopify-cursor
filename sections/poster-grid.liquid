@@ -1,0 +1,324 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.image_shape == 'blob' %}
+  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* --- STICKER/POSTER GRID CUSTOM STYLES --- */
+
+  /* Remove Card Backgrounds */
+  .section-{{ section.id }}-padding .card,
+  .section-{{ section.id }}-padding .card-wrapper,
+  .section-{{ section.id }}-padding .card__inner,
+  .section-{{ section.id }}-padding .card__content,
+  .section-{{ section.id }}-padding .card__media {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    --color-background: transparent;
+    --gradient-background: transparent;
+    --shadow-horizontal-offset: 0px;
+    --shadow-vertical-offset: 0px;
+    --shadow-blur-radius: 0px;
+    --shadow-opacity: 0;
+  }
+
+  .section-{{ section.id }}-padding .card:after,
+  .section-{{ section.id }}-padding .card-wrapper:after,
+  .section-{{ section.id }}-padding .card__inner:after {
+    display: none !important;
+  }
+
+  .section-{{ section.id }}-padding .media--transparent {
+     background-color: transparent !important;
+  }
+
+  /* Die-Cut Outline Effect on Images */
+  .section-{{ section.id }}-padding .card__media img {
+    filter:
+        drop-shadow(3px 0 0 white)
+        drop-shadow(-3px 0 0 white)
+        drop-shadow(0 3px 0 white)
+        drop-shadow(0 -3px 0 white)
+        drop-shadow(3px 5px 8px rgba(0,0,0,0.2));
+
+    will-change: transform, filter;
+    transform: translateZ(0);
+
+    transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    object-fit: contain !important;
+    padding: 10px;
+  }
+
+  /* Hover Interaction: Pop and Rotate */
+  .section-{{ section.id }}-padding .card-wrapper:hover .card__media img {
+    transform: scale(1.05) rotate(2deg) translateZ(0);
+    filter:
+        drop-shadow(3px 0 0 white)
+        drop-shadow(-3px 0 0 white)
+        drop-shadow(0 3px 0 white)
+        drop-shadow(0 -3px 0 white)
+        drop-shadow(6px 12px 16px rgba(0,0,0,0.25));
+  }
+
+  /* Info Area */
+  .section-{{ section.id }}-padding .card__content {
+    text-align: center;
+    padding-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  /* Sticky Note Style for Text */
+  .section-{{ section.id }}-padding .card__heading,
+  .section-{{ section.id }}-padding .card-information {
+    background: #fff88f; /* Yellow default */
+    padding: 8px 12px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+    color: #000;
+    width: auto;
+    max-width: 100%;
+    transition: transform 0.2s ease;
+    border-radius: 1px;
+  }
+
+  .section-{{ section.id }}-padding .card__heading {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 0;
+    transform: rotate(-2deg);
+    background: #fff88f;
+    z-index: 2;
+  }
+
+  .section-{{ section.id }}-padding .card__heading a {
+    text-decoration: none;
+    color: #000;
+  }
+
+  .section-{{ section.id }}-padding .card-information {
+    margin: 5px 0 0 0;
+    transform: none;
+    background: transparent;
+    box-shadow: none;
+    font-weight: bold;
+    font-family: var(--font-body-family);
+    z-index: 1;
+    text-align: center;
+    padding-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  /* Randomize rotations */
+  .section-{{ section.id }}-padding .grid__item:nth-child(even) .card__heading {
+    transform: rotate(2deg);
+  }
+  .section-{{ section.id }}-padding .grid__item:nth-child(even) .card-information {
+    transform: none;
+    background: transparent !important;
+  }
+
+  /* Ensure card is clickable */
+  .poster-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+  }
+
+  /* Override Grid Gaps */
+  .section-{{ section.id }}-padding .grid {
+     --grid-desktop-horizontal-spacing: 20px;
+     --grid-desktop-vertical-spacing: 40px;
+     --grid-mobile-horizontal-spacing: 15px;
+     --grid-mobile-vertical-spacing: 30px;
+     column-gap: var(--grid-mobile-horizontal-spacing);
+     row-gap: var(--grid-mobile-vertical-spacing);
+     margin-bottom: 30px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding .grid {
+      column-gap: var(--grid-desktop-horizontal-spacing);
+      row-gap: var(--grid-desktop-vertical-spacing);
+    }
+  }
+
+  /* Ensure Price is Visible here (unlike sticker grid where we hid it) */
+  .card-information .price {
+      display: block !important;
+      margin-top: 5px;
+      padding: 2px 6px;
+      background: rgba(255,255,255,0.8);
+      transform: rotate(-1deg);
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign products_to_display = section.settings.collection.all_products_count
+
+  if section.settings.collection.all_products_count > section.settings.products_to_show
+    assign products_to_display = section.settings.products_to_show
+    assign more_in_collection = true
+  endif
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} isolate gradient">
+  <div class="collection section-{{ section.id }}-padding">
+    <div class="page-width">
+      <ul
+        class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
+        role="list"
+      >
+        {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+          <li class="grid__item">
+            <div class="poster-wrapper">
+              {% render 'card-product',
+                card_product: product,
+                media_aspect_ratio: section.settings.image_ratio,
+                image_shape: section.settings.image_shape,
+                show_secondary_image: section.settings.show_secondary_image,
+                show_vendor: section.settings.show_vendor,
+                show_rating: section.settings.show_rating,
+                section_id: section.id
+              %}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Poster Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 36,
+      "step": 1,
+      "default": 12,
+      "label": "Products to show"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1",
+      "label": "Heading Size"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3,
+      "label": "Columns (Desktop)"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        { "value": "1", "label": "1 Column" },
+        { "value": "2", "label": "2 Columns" }
+      ],
+      "default": "2",
+      "label": "Columns (Mobile)"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        { "value": "adapt", "label": "Adapt to Image" },
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "square", "label": "Square" }
+      ],
+      "default": "adapt",
+      "label": "Image Ratio"
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "arch", "label": "Arch" },
+        { "value": "blob", "label": "Blob" },
+        { "value": "round", "label": "Round" }
+      ],
+      "default": "default",
+      "label": "Image Shape"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "Show Secondary Image on Hover"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Poster Grid"
+    }
+  ]
+}
+{% endschema %}

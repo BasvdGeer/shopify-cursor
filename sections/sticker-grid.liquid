@@ -38,7 +38,7 @@
   }
 
   /* --- STICKER GRID CUSTOM STYLES --- */
-  
+
   /* Remove Card Backgrounds */
   .section-{{ section.id }}-padding .card,
   .section-{{ section.id }}-padding .card-wrapper,
@@ -55,14 +55,14 @@
     --shadow-blur-radius: 0px;
     --shadow-opacity: 0;
   }
-  
+
   /* Kill the ::after pseudo-element that often holds borders */
   .section-{{ section.id }}-padding .card:after,
   .section-{{ section.id }}-padding .card-wrapper:after,
   .section-{{ section.id }}-padding .card__inner:after {
     display: none !important;
   }
-  
+
   .section-{{ section.id }}-padding .media--transparent {
      background-color: transparent !important;
   }
@@ -70,18 +70,18 @@
   /* Die-Cut Outline Effect on Images (Optimized) */
   .section-{{ section.id }}-padding .card__media img {
     /* Reduced to 4 shadows for performance, plus hardware acceleration */
-    filter: 
-        drop-shadow(3px 0 0 white) 
-        drop-shadow(-3px 0 0 white) 
-        drop-shadow(0 3px 0 white) 
+    filter:
+        drop-shadow(3px 0 0 white)
+        drop-shadow(-3px 0 0 white)
+        drop-shadow(0 3px 0 white)
         drop-shadow(0 -3px 0 white)
         drop-shadow(3px 5px 8px rgba(0,0,0,0.2));
-        
+
     will-change: transform, filter; /* Hint to browser */
     transform: translateZ(0); /* Force GPU layer */
-    
+
     transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-    
+
     /* Ensure image fits nicely */
     object-fit: contain !important;
     padding: 10px; /* Reduced padding to tighten */
@@ -90,10 +90,10 @@
   /* Hover Interaction: Pop and Rotate */
   .section-{{ section.id }}-padding .card-wrapper:hover .card__media img {
     transform: scale(1.05) rotate(2deg) translateZ(0);
-    filter: 
-        drop-shadow(3px 0 0 white) 
-        drop-shadow(-3px 0 0 white) 
-        drop-shadow(0 3px 0 white) 
+    filter:
+        drop-shadow(3px 0 0 white)
+        drop-shadow(-3px 0 0 white)
+        drop-shadow(0 3px 0 white)
         drop-shadow(0 -3px 0 white)
         drop-shadow(6px 12px 16px rgba(0,0,0,0.25));
   }
@@ -106,9 +106,9 @@
     justify-content: center;
     align-items: center;
     gap: 4px; /* Minimal gap */
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
   }
-  
+
   /* Shared Sticky Note Style for Text */
   .section-{{ section.id }}-padding .card__heading,
   .section-{{ section.id }}-padding .card-information {
@@ -131,130 +131,13 @@
     background: #fff88f; /* Yellow */
     z-index: 2;
   }
-  
+
   .section-{{ section.id }}-padding .card__heading a {
     text-decoration: none;
     color: #000;
   }
 
-  /* Main Page Title: Masking Tape Style as the "Tape" */
-  .section-{{ section.id }}-padding .collection__title {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      /* Negative margin to pull the "tape" down onto the "paper" is handled by the elements */
-  }
-
-  .section-{{ section.id }}-padding .collection__title .title {
-      /* Base: Cute Pink Washi */
-      background-color: rgba(255, 182, 193, 0.85); 
-      
-      /* Pattern: White Polka Dots */
-      background-image: 
-          radial-gradient(rgba(255,255,255,0.8) 15%, transparent 16%),
-          radial-gradient(rgba(255,255,255,0.8) 15%, transparent 16%);
-      background-size: 16px 16px; /* Smaller pattern too */
-      background-position: 0 0, 8px 8px; 
-      
-      color: #2a2a2a;
-      padding: 10px 40px; 
-      display: inline-block;
-      max-width: 700px; /* Wide on Desktop */
-      position: relative;
-      
-      /* 3D Floating Tape Effect */
-      transform: rotate(-2deg) translateY(22px) translateZ(10px); 
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15); 
-      
-      /* Smooth Translucency */
-      backdrop-filter: blur(1.5px);
-      
-      /* Finer Torn Edge */
-      clip-path: polygon(
-          0% 5%, 2% 0%, 5% 4%, 8% 0%, 12% 4%, 15% 0%, 19% 5%, 
-          22% 0%, 25% 4%, 29% 0%, 33% 4%, 37% 0%, 40% 5%, 
-          44% 0%, 47% 4%, 52% 0%, 56% 4%, 60% 0%, 64% 5%, 
-          68% 0%, 72% 4%, 76% 0%, 79% 5%, 83% 0%, 87% 4%, 
-          91% 0%, 95% 4%, 98% 0%, 100% 5%, 
-          
-          100% 95%, 98% 100%, 95% 96%, 91% 100%, 87% 96%, 83% 100%, 79% 96%,
-          76% 100%, 72% 96%, 68% 100%, 64% 96%, 60% 100%, 56% 96%, 52% 100%,
-          47% 96%, 44% 100%, 40% 96%, 37% 100%, 33% 96%, 29% 100%, 25% 96%, 
-          22% 100%, 19% 96%, 15% 100%, 12% 96%, 8% 100%, 5% 96%, 2% 100%, 0% 95%
-      );
-      
-      font-size: 1.8rem; 
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px; 
-      z-index: 10; 
-      margin-bottom: 0;
-      line-height: 1.1; 
-      border: none;
-      text-shadow: 1px 1px 0px rgba(255,255,255,0.4); 
-  }
-
-  /* Description: Realistic Binder Paper */
-  .section-{{ section.id }}-padding .collection__description {
-      position: relative;
-      background-color: #fffdf0; 
-      color: #2c2c2c;
-      padding: 30px 20px 25px 50px; 
-      margin: 0 auto 40px auto; 
-      max-width: 680px; /* Wide on Desktop */
-      
-      /* Tighter Lines (20px) + Red Margin */
-      background-image: 
-        linear-gradient(to right, transparent 39px, #ffb3b3 39px, #ffb3b3 40px, transparent 40px), 
-        repeating-linear-gradient(transparent, transparent 19px, #b5d0e2 20px); 
-        
-      border-radius: 2px; 
-      border-left: 1px solid #e0e0e0; 
-      
-      box-shadow: 
-        0 1px 1px rgba(0,0,0,0.05), 
-        0 5px 10px rgba(0,0,0,0.05),
-        -1px 0 0 rgba(0,0,0,0.02) inset; 
-        
-      transform: none; 
-      
-      font-size: 0.95rem; 
-      line-height: 20px; 
-      text-align: center; 
-      z-index: 5;
-      font-weight: 500;
-  }
-  
-  /* Mobile Overrides: Keep Compact "Bookmarker" Feel */
-  @media screen and (max-width: 750px) {
-      .section-{{ section.id }}-padding .collection__title .title {
-          max-width: 320px; 
-          padding: 10px 30px;
-      }
-      .section-{{ section.id }}-padding .collection__description {
-          max-width: 300px;
-      }
-  }
-
-  /* Binder Holes */
-  .section-{{ section.id }}-padding .collection__description::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 15px; /* Closer to edge */
-      height: 100%;
-      width: 15px;
-      background-image: radial-gradient(circle, #222 4px, rgba(0,0,0,0.1) 5px, transparent 6px); /* Smaller holes */
-      background-size: 100% 25px; /* More frequent holes or just pattern */
-      background-repeat: space no-repeat;
-      background-position: center 10%; 
-      opacity: 0.15; 
-  }
-  
-  /* Remove the old fake tape */
-  .section-{{ section.id }}-padding .collection__description::before {
-      display: none;
-  }
+  /* Header styles removed and moved to cute-hero section */
 
   /* Price/Info Specifics - Cleaned Up */
   .section-{{ section.id }}-padding .card-information {
@@ -269,7 +152,7 @@
     padding-bottom: 10px; /* Reduced to bring buttons closer */
     line-height: 1.2;
   }
-  
+
   /* Tighter Spacing using Standard Grid Variables */
   .section-{{ section.id }}-padding .grid {
      /* Override standard Shopify grid gap variables locally */
@@ -277,13 +160,13 @@
      --grid-desktop-vertical-spacing: 30px;
      --grid-mobile-horizontal-spacing: 10px;
      --grid-mobile-vertical-spacing: 30px;
-     
+
      /* Ensure it respects the gap */
      column-gap: var(--grid-mobile-horizontal-spacing);
      row-gap: var(--grid-mobile-vertical-spacing);
      margin-bottom: 30px;
   }
-  
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding .grid {
       column-gap: var(--grid-desktop-horizontal-spacing);
@@ -296,7 +179,7 @@
      transform: rotate(0deg) scale(1.05);
      z-index: 10;
   }
-  
+
   .section-{{ section.id }}-padding .card-wrapper:hover .card-information {
      transform: rotate(0deg) scale(1.05);
      z-index: 10;
@@ -329,45 +212,48 @@
       transform: scale(1.02);
       /* Subtle desaturation to make stamp pop? Optional. Let's keep it vibrant. */
     }
-    
+
     /* JS-Injected Random Stamp */
     .sticker-stamp {
       position: absolute;
       /* Responsive Size: 25% of card, but between 50px and 90px */
       width: clamp(50px, 28%, 90px);
-      height: clamp(50px, 28%, 90px); 
-      
+      height: clamp(50px, 28%, 90px);
+
       /* Visuals handled by IMG now */
       display: flex;
       align-items: center;
       justify-content: center;
-      
-      /* Stamp Look: Circular Red Seal */
-      border: 3px solid #d32f2f; /* Red Ink Color */
-      border-radius: 50%;
-      background-color: rgba(211, 47, 47, 0.05); /* Very faint red tint inside */
-      padding: 8px; /* Space for the bear inside the circle */
-      box-shadow: inset 0 0 0 1px rgba(211, 47, 47, 0.2); /* Inner ring effect */
 
-      /* Opaque to be visible on dark bg */
-      mix-blend-mode: normal; 
-      
+      /* Stamp Look: Circular Red Seal */
+      border: 3px solid white;
+      border-radius: 50%;
+      background-color: transparent;
+      padding: 8px; /* Space for the bear inside the circle */
+      background-color: transparent;
+      padding: 8px; /* Space for the bear inside the circle */
+      /* Solid white shadow becomes solid black on white, creating a double-border effect */
+      box-shadow: 0 0 0 2px white;
+
+      /* Invert effect */
+      mix-blend-mode: difference;
+
       pointer-events: none;
-      z-index: 70; 
-      
+      z-index: 70;
+
       transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    
+
     .sticker-stamp.is-visible {
        opacity: 0.9; /* Ink isn't solid */
-       transform: scale(1) !important; 
+       transform: scale(1) !important;
     }
 
     /* Hide Price in this section only */
     .card-information .price {
       display: none !important;
     }
-    
+
     /* Ensure trigger covers everything for "Click to Add" */
     .selection-trigger {
         position: absolute;
@@ -388,11 +274,11 @@
       padding: 0;
       background: transparent;
       box-shadow: none;
-      
+
       display: flex;
       align-items: center;
-      gap: 5px; 
-      z-index: 60; 
+      gap: 5px;
+      z-index: 60;
       width: max-content;
       pointer-events: auto;
     }
@@ -408,7 +294,7 @@
       font-size: 2rem; /* Bigger font */
       color: #000;
       box-shadow: 2px 3px 6px rgba(0,0,0,0.15);
-      font-family: var(--font-heading-family); 
+      font-family: var(--font-heading-family);
       transition: transform 0.2s;
       border-radius: 2px;
     }
@@ -435,7 +321,7 @@
       cursor: pointer;
     }
     .qty-btn-plus:hover { transform: rotate(3deg) scale(1.1); }
-    
+
     .qty-display {
         background: transparent;
         font-weight: 800;
@@ -449,26 +335,26 @@
       bottom: 20px;
       left: 20px;
       z-index: 100;
-      
+
       background: #fff0f5; /* Lavender Blush (Pink) */
       border: none;
       border-radius: 2px;
-      
+
       padding: 15px 20px;
       width: 260px;
-      
+
       box-shadow: 2px 4px 10px rgba(0,0,0,0.15);
       transform: rotate(-2deg);
-      
+
       display: none; /* JS toggles flex */
       flex-direction: column;
       align-items: center;
       gap: 10px;
-      
+
       font-family: var(--font-heading-family);
       transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    
+
     /* MOBILE OPTIMIZATIONS */
     @media screen and (max-width: 750px) {
         /* Smaller Buttons */
@@ -481,19 +367,19 @@
             bottom: -10px !important; /* Tuck tighter */
             gap: 4px !important;
         }
-        
+
         /* Bigger Stickers */
         .card__media img {
             transform: scale(1.15) !important; /* Zoom in slightly */
         }
-        
+
         /* Responsive Stamp */
         .sticker-stamp {
              width: clamp(40px, 22%, 70px) !important;
              height: clamp(40px, 22%, 70px) !important;
         }
     }
-    
+
     .sticker-tracker.is-complete {
         transform: rotate(0deg) scale(1.05); /* Straighten and pop when ready */
     }
@@ -526,7 +412,7 @@
     }
 
     .tracker-slot img {
-        width: 40px; 
+        width: 40px;
         height: 40px;
         object-fit: contain;
         opacity: 0.2; /* Ghost Bear */
@@ -539,7 +425,7 @@
         filter: none;
         transform: scale(1.1) rotate(5deg);
     }
-    
+
     .tracker-status-text {
         font-size: 0.9rem;
         color: #888;
@@ -561,7 +447,7 @@
         text-transform: uppercase;
         letter-spacing: 1px;
     }
-    
+
     .tracker-cta:not([disabled]) {
         cursor: pointer;
         opacity: 1;
@@ -576,46 +462,46 @@
       margin: 5px auto 0 auto; /* Center the block */
       width: fit-content; /* Shrink to text size */
       max-width: 100%; /* Prevent overflow */
-      transform: none; 
-      background: transparent; 
+      transform: none;
+      background: transparent;
       box-shadow: none;
       font-weight: bold;
       font-family: var(--font-body-family);
       z-index: 1;
       text-align: center;
-      padding-bottom: 10px; 
+      padding-bottom: 10px;
       line-height: 1.2;
       position: relative; /* Anchor for price tape */
     }
-    
+
     /* Washi Tape Price Tag */
     .sticker-price-tape {
       position: absolute;
-      top: -15px; 
-      right: -15px; 
+      top: -15px;
+      right: -15px;
       z-index: 10; /* Just above text */
-      
+
       background-color: rgba(180, 240, 200, 0.9); /* Mint Green Washi */
       color: #2a4a3a; /* Dark Green Text */
       padding: 4px 12px;
-      
-      font-family: var(--font-heading-family); 
+
+      font-family: var(--font-heading-family);
       font-weight: 700;
       font-size: 1.1rem;
       letter-spacing: 0.5px;
-      
+
       /* transform handled by inline style for randomization */
       box-shadow: 1px 2px 4px rgba(0,0,0,0.15);
-      
+
       /* Torn Edges */
       clip-path: polygon(
-        2% 0%, 98% 1%, 100% 5%, 
-        100% 95%, 98% 100%, 2% 99%, 0% 95%, 
+        2% 0%, 98% 1%, 100% 5%,
+        100% 95%, 98% 100%, 2% 99%, 0% 95%,
         0% 5%
       );
       transition: transform 0.2s;
     }
-    
+
     .tracker-tape {
       position: absolute;
       top: -10px;
@@ -627,7 +513,7 @@
       border: 1px solid rgba(0,0,0,0.1);
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
-    
+
     .tracker-title {
       font-weight: bold;
       text-align: center;
@@ -635,7 +521,7 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    
+
     .tracker-count {
       font-size: 2rem;
       font-weight: 800;
@@ -643,14 +529,14 @@
       margin: 5px 0;
       color: #333;
     }
-    
+
     .tracker-subtext {
       font-size: 0.9rem;
       text-align: center;
       margin-bottom: 10px;
       line-height: 1.3;
     }
-    
+
     .tracker-btn {
       width: 100%;
       padding: 10px;
@@ -669,7 +555,7 @@
       background: #ccc;
       cursor: not-allowed;
     }
-    
+
     /* State: Complete */
     .sticker-tracker.is-complete {
       border-color: #ffd700;
@@ -678,7 +564,6 @@
     .sticker-tracker.is-complete .tracker-count {
       color: #d4af37;
     }
-
 {%- endstyle -%}
 
 {%- liquid
@@ -691,86 +576,75 @@
 -%}
 
 <div class="color-{{ section.settings.color_scheme }} isolate gradient">
+  <!-- Header removed, use cute-hero section instead -->
   <div class="collection section-{{ section.id }}-padding">
-    
-    <div class="collection__title title-wrapper title-wrapper--no-top-margin page-width center">
-       {%- if section.settings.title != blank -%}
-        <h2 class="title inline-richtext {{ section.settings.heading_size }}">
-          {{ section.settings.title }}
-        </h2>
-        <div class="collection__description">
-          {%- if section.settings.description != blank -%}
-            {{ section.settings.description }}
-          {%- endif -%}
-        </div>
-      {%- endif -%}
-    </div>
+    <!-- Title block removed -->
 
     <!-- Sticker Grid -->
     <div class="page-width">
-      <ul class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down" role="list">
+      <ul
+        class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
+        role="list"
+      >
         {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
           <li class="grid__item">
             <!-- Wrapper with Data Attribute for Selection -->
             <div class="sticker-select-wrapper" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
-                
-                <!-- Price Tape moved to card-product.liquid -->
-                
-                {% render 'card-product',
-                  card_product: product,
-                  media_aspect_ratio: section.settings.image_ratio,
-                  image_shape: section.settings.image_shape,
-                  show_secondary_image: section.settings.show_secondary_image,
-                  show_vendor: section.settings.show_vendor,
-                  show_rating: section.settings.show_rating,
-                  section_id: section.id
-                %}
+              <!-- Price Tape moved to card-product.liquid -->
 
-                <!-- Quantity Controls Overlay -->
-                <!-- We remove the full-cover click to allow natural hover, but maybe hijacking image click is still good? 
-                     User specifically asked for +1 -1 buttons. Let's put those in. -->
-                <div class="quantity-note" id="qty-note-{{ product.selected_or_first_available_variant.id }}">
-                   <button type="button" class="qty-note-item qty-btn-minus" onclick="updateQty(this, -1)">-</button>
-                   <div class="qty-note-item qty-display-wrapper">
-                       <span class="qty-display" data-current="0">0</span>
-                   </div>
-                   <button type="button" class="qty-note-item qty-btn-plus" onclick="updateQty(this, 1)">+</button>
+              {% render 'card-product',
+                card_product: product,
+                media_aspect_ratio: section.settings.image_ratio,
+                image_shape: section.settings.image_shape,
+                show_secondary_image: section.settings.show_secondary_image,
+                show_vendor: section.settings.show_vendor,
+                show_rating: section.settings.show_rating,
+                section_id: section.id
+              %}
+
+              <!-- Quantity Controls Overlay -->
+              <!--
+                We remove the full-cover click to allow natural hover, but maybe hijacking image click is still good?
+                User specifically asked for +1 -1 buttons. Let's put those in.
+              -->
+              <div class="quantity-note" id="qty-note-{{ product.selected_or_first_available_variant.id }}">
+                <button type="button" class="qty-note-item qty-btn-minus" onclick="updateQty(this, -1)">-</button>
+                <div class="qty-note-item qty-display-wrapper">
+                  <span class="qty-display" data-current="0">0</span>
                 </div>
-                
-                <!-- Helper overlay triggers +1 if clicked -->
-                 <div class="selection-trigger" onclick="initialClick(this)"></div>
+                <button type="button" class="qty-note-item qty-btn-plus" onclick="updateQty(this, 1)">+</button>
+              </div>
 
+              <!-- Helper overlay triggers +1 if clicked -->
+              <div class="selection-trigger" onclick="initialClick(this)"></div>
             </div>
           </li>
         {%- endfor -%}
       </ul>
     </div>
-    
+
     <!-- Floating Tracker (Pink Sticky Note) -->
     <div class="sticker-tracker" id="bundle-tracker">
       <div class="tracker-tape-visual"></div>
       <div class="tracker-title">✨ 3 FOR €5 ✨</div>
-      
+
       <div class="tracker-slots">
         <!-- Bear Slots -->
         <div class="tracker-slot">
-            <img src="{{ 'bear-line-icon.png' | asset_url }}" alt="Slot 1" width="40" height="40">
+          <img src="{{ 'bear-line-icon.png' | asset_url }}" alt="Slot 1" width="40" height="40">
         </div>
         <div class="tracker-slot">
-            <img src="{{ 'bear-line-icon.png' | asset_url }}" alt="Slot 2" width="40" height="40">
+          <img src="{{ 'bear-line-icon.png' | asset_url }}" alt="Slot 2" width="40" height="40">
         </div>
         <div class="tracker-slot">
-            <img src="{{ 'bear-line-icon.png' | asset_url }}" alt="Slot 3" width="40" height="40">
+          <img src="{{ 'bear-line-icon.png' | asset_url }}" alt="Slot 3" width="40" height="40">
         </div>
       </div>
-      
-      <div class="tracker-status-text">Pick <span id="slots-left">3</span> more!</div>
-      
-      <button class="tracker-cta" id="tracker-cta" disabled>
-        Add Bundle - €5.00
-      </button>
-    </div>
 
+      <div class="tracker-status-text">Pick <span id="slots-left">3</span> more!</div>
+
+      <button class="tracker-cta" id="tracker-cta" disabled>Add Bundle - €5.00</button>
+    </div>
   </div>
 </div>
 
@@ -778,130 +652,132 @@
   window.stickerState = {
     items: {}, // Map variantId -> quantity
     required: 3,
-    stampUrl: "{{ 'bear-line-icon.png' | asset_url }}" 
+    stampUrl: "{{ 'bear-line-icon.png' | asset_url }}",
   };
 
   // If user clicks the image directly
-  window.initialClick = function(trigger) {
-      const wrapper = trigger.closest('.sticker-select-wrapper');
-      const qtyNote = wrapper.querySelector('.quantity-note');
-      const display = qtyNote.querySelector('.qty-display');
-      
-      // If we want click to ALWAYS add 1, or toggle? User said "add it to the cart".
-      // Usually that implies ADD.
-      window.updateQty(qtyNote.querySelector('.qty-btn-plus'), 1);
+  window.initialClick = function (trigger) {
+    const wrapper = trigger.closest('.sticker-select-wrapper');
+    const qtyNote = wrapper.querySelector('.quantity-note');
+    const display = qtyNote.querySelector('.qty-display');
+
+    // If we want click to ALWAYS add 1, or toggle? User said "add it to the cart".
+    // Usually that implies ADD.
+    window.updateQty(qtyNote.querySelector('.qty-btn-plus'), 1);
   };
 
-  window.addRandomStamp = function(wrapper) {
-      // Check if stamp exists
-      if (wrapper.querySelector('.sticker-stamp')) return;
-      
-      const stamp = document.createElement('div');
-      stamp.classList.add('sticker-stamp');
-      
-      const img = document.createElement('img');
-      img.src = window.stickerState.stampUrl;
-      img.style.width = '100%';
-      img.style.height = '100%';
-      img.style.objectFit = 'contain';
-      // Apply Red Pigment Ink Filter (High Contrast/Brightness for visibility on dark bg without glow)
-      img.style.filter = 'invert(20%) sepia(90%) saturate(4000%) hue-rotate(350deg) brightness(120%) contrast(150%)';
-      
-      // Fallback if image missing
-      img.onerror = function() {
-         stamp.innerText = '★';
-         stamp.style.fontSize = '3rem';
-         stamp.style.color = '#d32f2f';
-         stamp.style.border = '3px dotted #d32f2f';
-         stamp.style.borderRadius = '50%';
-         stamp.style.display = 'flex';
-         stamp.style.alignItems = 'center';
-         stamp.style.justifyContent = 'center';
-         img.remove(); // Remove broken image
-      };
-      
-      stamp.appendChild(img);
-      
-      // Random Params
-      const randomRot = Math.floor(Math.random() * 60) - 30; // -30 to 30 deg
-      const randomTop = Math.floor(Math.random() * 40) + 30; // 30% to 70%
-      const randomLeft = Math.floor(Math.random() * 40) + 30; // 30% to 70%
-      
-      stamp.style.top = randomTop + '%';
-      stamp.style.left = randomLeft + '%';
-      stamp.style.transform = `translate(-50%, -50%) rotate(${randomRot}deg) scale(0.5)`; // Init scale small
-      
-      wrapper.appendChild(stamp);
-      
-      // Animate in
-      requestAnimationFrame(() => {
-         stamp.style.opacity = '0.9'; 
-         stamp.style.transform = `translate(-50%, -50%) rotate(${randomRot}deg) scale(1)`; 
-      });
+  window.addRandomStamp = function (wrapper) {
+    // Check if stamp exists
+    if (wrapper.querySelector('.sticker-stamp')) return;
+
+    const stamp = document.createElement('div');
+    stamp.classList.add('sticker-stamp');
+
+    const img = document.createElement('img');
+    img.src = window.stickerState.stampUrl;
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'contain';
+    // Apply White Filter for Difference Mode (Invert Effect)
+    // 4-way solid drop-shadow simulates a structural 'stroke' so it stays thick and visible
+    img.style.filter =
+      'brightness(0) invert(1) drop-shadow(1px 0 0 white) drop-shadow(-1px 0 0 white) drop-shadow(0 1px 0 white) drop-shadow(0 -1px 0 white)';
+
+    // Fallback if image missing
+    img.onerror = function () {
+      stamp.innerText = '★';
+      stamp.style.fontSize = '3rem';
+      stamp.style.color = 'white';
+      stamp.style.border = '3px dotted white';
+      stamp.style.borderRadius = '50%';
+      stamp.style.display = 'flex';
+      stamp.style.alignItems = 'center';
+      stamp.style.justifyContent = 'center';
+      img.remove(); // Remove broken image
+    };
+
+    stamp.appendChild(img);
+
+    // Random Params
+    const randomRot = Math.floor(Math.random() * 60) - 30; // -30 to 30 deg
+    const randomTop = Math.floor(Math.random() * 40) + 30; // 30% to 70%
+    const randomLeft = Math.floor(Math.random() * 40) + 30; // 30% to 70%
+
+    stamp.style.top = randomTop + '%';
+    stamp.style.left = randomLeft + '%';
+    stamp.style.transform = `translate(-50%, -50%) rotate(${randomRot}deg) scale(0.5)`; // Init scale small
+
+    wrapper.appendChild(stamp);
+
+    // Animate in
+    requestAnimationFrame(() => {
+      stamp.style.opacity = '0.9';
+      stamp.style.transform = `translate(-50%, -50%) rotate(${randomRot}deg) scale(1)`;
+    });
   };
 
   // JS alignment removed - using native DOM placement in card-product.liquid
-  
+
   // Clean up any old listeners if page doesn't refresh (Liquid/Section rendering handles refresh usually)
 
-  window.removeStamp = function(wrapper) {
-      const stamp = wrapper.querySelector('.sticker-stamp');
-      if (stamp) {
-          stamp.remove();
-      }
+  window.removeStamp = function (wrapper) {
+    const stamp = wrapper.querySelector('.sticker-stamp');
+    if (stamp) {
+      stamp.remove();
+    }
   };
 
-  window.updateTrackerUI = function() {
-      // Calculate total
-      let total = 0;
-      for (let id in window.stickerState.items) {
-          total += window.stickerState.items[id];
-      }
-      
-      const tracker = document.getElementById('bundle-tracker');
-      const slots = tracker ? tracker.querySelectorAll('.tracker-slot') : [];
-      const statusText = tracker ? tracker.querySelector('.tracker-status-text') : null;
-      const cta = document.getElementById('tracker-cta');
-      const slotsLeftSpan = document.getElementById('slots-left');
+  window.updateTrackerUI = function () {
+    // Calculate total
+    let total = 0;
+    for (let id in window.stickerState.items) {
+      total += window.stickerState.items[id];
+    }
 
-      if (!tracker) return;
+    const tracker = document.getElementById('bundle-tracker');
+    const slots = tracker ? tracker.querySelectorAll('.tracker-slot') : [];
+    const statusText = tracker ? tracker.querySelector('.tracker-status-text') : null;
+    const cta = document.getElementById('tracker-cta');
+    const slotsLeftSpan = document.getElementById('slots-left');
 
-      if (total > 0) {
-          tracker.style.display = 'flex';
+    if (!tracker) return;
+
+    if (total > 0) {
+      tracker.style.display = 'flex';
+    } else {
+      tracker.style.display = 'none';
+    }
+
+    // Update Slots (Bear Logic)
+    slots.forEach((slot, index) => {
+      if (index < total) {
+        slot.classList.add('filled');
       } else {
-          tracker.style.display = 'none';
+        slot.classList.remove('filled');
       }
+    });
 
-      // Update Slots (Bear Logic)
-      slots.forEach((slot, index) => {
-          if (index < total) {
-              slot.classList.add('filled');
-          } else {
-              slot.classList.remove('filled');
-          }
-      });
-
-      // Update Text & Button
-      if (total >= 3) {
-          tracker.classList.add('is-complete');
-          if (statusText) statusText.innerText = "YAY! Bundle Complete!";
-          if (cta) {
-              cta.removeAttribute('disabled');
-              cta.innerText = "Add Bundle - €5.00";
-          }
-      } else {
-          tracker.classList.remove('is-complete');
-          const left = 3 - total;
-          if (slotsLeftSpan) slotsLeftSpan.innerText = left;
-          if (statusText) statusText.innerHTML = `Pick <span id="slots-left">${left}</span> more!`;
-          if (cta) {
-              cta.setAttribute('disabled', 'true');
-              cta.innerText = "Select 3 items";
-          }
+    // Update Text & Button
+    if (total >= 3) {
+      tracker.classList.add('is-complete');
+      if (statusText) statusText.innerText = 'YAY! Bundle Complete!';
+      if (cta) {
+        cta.removeAttribute('disabled');
+        cta.innerText = 'Add Bundle - €5.00';
       }
+    } else {
+      tracker.classList.remove('is-complete');
+      const left = 3 - total;
+      if (slotsLeftSpan) slotsLeftSpan.innerText = left;
+      if (statusText) statusText.innerHTML = `Pick <span id="slots-left">${left}</span> more!`;
+      if (cta) {
+        cta.setAttribute('disabled', 'true');
+        cta.innerText = 'Select 3 items';
+      }
+    }
   };
 
-  window.updateQty = function(btn, change) {
+  window.updateQty = function (btn, change) {
     const wrapper = btn.closest('.sticker-select-wrapper');
     const variantId = wrapper.dataset.variantId;
     const qtyNote = wrapper.querySelector('.quantity-note');
@@ -910,41 +786,40 @@
 
     let current = parseInt(display.dataset.current || 0);
     let newQty = current + change;
-    
+
     if (newQty < 0) newQty = 0;
-    
+
     // Update local UI
     display.innerText = newQty;
     display.dataset.current = newQty;
-    
+
     // Update State
     if (newQty > 0) {
-        window.stickerState.items[variantId] = newQty;
-        wrapper.classList.add('is-selected');
-        qtyNote.classList.add('is-active');
-        
-        // Add Stamp if not exists
-        window.addRandomStamp(wrapper);
-        
+      window.stickerState.items[variantId] = newQty;
+      wrapper.classList.add('is-selected');
+      qtyNote.classList.add('is-active');
+
+      // Add Stamp if not exists
+      window.addRandomStamp(wrapper);
     } else {
-        delete window.stickerState.items[variantId];
-        wrapper.classList.remove('is-selected');
-        qtyNote.classList.remove('is-active');
-        
-        // Remove Stamp
-        window.removeStamp(wrapper);
+      delete window.stickerState.items[variantId];
+      wrapper.classList.remove('is-selected');
+      qtyNote.classList.remove('is-active');
+
+      // Remove Stamp
+      window.removeStamp(wrapper);
     }
     // Verify tracker state
     if (window.updateTrackerUI) window.updateTrackerUI();
   };
-  
+
   // Initialize Tracker on Load
   document.addEventListener('DOMContentLoaded', () => {
-      // Create initial state if needed or just sync UI
-      if (window.updateTrackerUI) window.updateTrackerUI();
+    // Create initial state if needed or just sync UI
+    if (window.updateTrackerUI) window.updateTrackerUI();
   });
 
-  window.addBundleToCart = async function() {
+  window.addBundleToCart = async function () {
     const btn = document.getElementById('tracker-cta');
     const originalText = btn.innerText;
     btn.innerText = 'Adding...';
@@ -953,46 +828,46 @@
     // Convert keys/values to items array
     const items = Object.entries(window.stickerState.items).map(([id, qty]) => ({
       id: parseInt(id),
-      quantity: qty
+      quantity: qty,
     }));
-    
+
     if (items.length === 0) {
-        console.error('No items');
-        btn.innerText = 'Select items first';
-        return;
+      console.error('No items');
+      btn.innerText = 'Select items first';
+      return;
     }
 
     try {
       const response = await fetch(window.Shopify.routes.root + 'cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: items })
+        body: JSON.stringify({ items: items }),
       });
 
       const data = await response.json();
-      
+
       if (data.items) {
-          btn.innerText = 'Added!';
-          window.location.href = '/cart';
+        btn.innerText = 'Added!';
+        window.location.href = '/cart';
       } else {
-          console.error('Error:', data);
-          alert('Failed to add: ' + (data.description || 'Unknown error'));
-          btn.innerText = 'Error';
-          btn.disabled = false;
+        console.error('Error:', data);
+        alert('Failed to add: ' + (data.description || 'Unknown error'));
+        btn.innerText = 'Error';
+        btn.disabled = false;
       }
     } catch (error) {
       console.error(error);
       btn.innerText = 'Error';
       btn.disabled = false;
-      setTimeout(() => btn.innerText = originalText, 2000);
+      setTimeout(() => (btn.innerText = originalText), 2000);
     }
   };
-  
+
   // Attach event listener to new CTA
-  document.addEventListener('click', function(e) {
-      if(e.target && e.target.id == 'tracker-cta') {
-          window.addBundleToCart();
-      }
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.id == 'tracker-cta') {
+      window.addBundleToCart();
+    }
   });
 </script>
 
@@ -1015,7 +890,7 @@
       "step": 1,
       "default": 12,
       "label": "Stickers to show"
-    },     
+    },
     {
       "type": "inline_richtext",
       "id": "title",
@@ -1063,7 +938,7 @@
       ],
       "default": "2",
       "label": "Columns (Mobile)"
-    },    
+    },
     {
       "type": "checkbox",
       "id": "show_secondary_image",
@@ -1083,31 +958,31 @@
       "label": "Show rating"
     },
     {
-       "type": "select",
-       "id": "image_ratio",
-       "options": [
-         { "value": "adapt", "label": "Adapt to image" },
-         { "value": "portrait", "label": "Portrait" },
-         { "value": "square", "label": "Square" }
-       ],
-       "default": "adapt",
-       "label": "Image ratio"
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        { "value": "adapt", "label": "Adapt to image" },
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "square", "label": "Square" }
+      ],
+      "default": "adapt",
+      "label": "Image ratio"
     },
     {
-       "type": "select",
-       "id": "image_shape",
-       "options": [
-         { "value": "default", "label": "Default" },
-         { "value": "arch", "label": "Arch" },
-         { "value": "blob", "label": "Blob" },
-         { "value": "chevronleft", "label": "Chevron Left" },
-         { "value": "chevronright", "label": "Chevron Right" },
-         { "value": "diamond", "label": "Diamond" },
-         { "value": "parallelogram", "label": "Parallelogram" },
-         { "value": "round", "label": "Round" }
-       ],
-       "default": "default",
-       "label": "Image shape"
+      "type": "select",
+      "id": "image_shape",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "arch", "label": "Arch" },
+        { "value": "blob", "label": "Blob" },
+        { "value": "chevronleft", "label": "Chevron Left" },
+        { "value": "chevronright", "label": "Chevron Right" },
+        { "value": "diamond", "label": "Diamond" },
+        { "value": "parallelogram", "label": "Parallelogram" },
+        { "value": "round", "label": "Round" }
+      ],
+      "default": "default",
+      "label": "Image shape"
     },
     {
       "type": "header",
@@ -1134,10 +1009,10 @@
       "default": 36
     },
     {
-       "type": "color_scheme",
-       "id": "color_scheme",
-       "label": "Color Scheme",
-       "default": "scheme-1"
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
     }
   ],
   "presets": [
